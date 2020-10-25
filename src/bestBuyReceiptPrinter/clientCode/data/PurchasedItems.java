@@ -1,5 +1,8 @@
 package bestBuyReceiptPrinter.clientCode.data;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 /**
  * PurchasedItems class is a collection class
  * this collection aggregates 0 or more StoreItems
@@ -8,4 +11,16 @@ package bestBuyReceiptPrinter.clientCode.data;
  */
 public class PurchasedItems {
 
+	private ArrayList<StoreItem> items;
+	
+	public PurchasedItems()
+	{
+		items=new ArrayList<StoreItem>();
+	}
+	
+	public Iterator<StoreItem> getItemsIterator()
+	{
+		Iterator<StoreItem> itemsIterator=items.iterator();
+		return itemsIterator;
+	}
 }

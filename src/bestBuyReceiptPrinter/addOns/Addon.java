@@ -6,7 +6,7 @@ public interface Addon {
 
 	/**
 	 * Whether the addon is valid for
-	 * a item on the list of purchased item
+	 * a item, purchase amount or date
 	 * MUST BE IMPLEMENTED FOR ADDON
 	 * @return if the addon applies
 	 */
@@ -20,4 +20,7 @@ public interface Addon {
 	 * @return relevant line
 	 */
 	public String getLines();
+
+
+	
 }
