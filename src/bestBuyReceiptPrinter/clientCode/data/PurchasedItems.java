@@ -23,4 +23,9 @@ public class PurchasedItems {
 		Iterator<StoreItem> itemsIterator=items.iterator();
 		return itemsIterator;
 	}
+	
+	public void addItem(StoreItem item)
+	{
+		items.add(item);
+	}
 }
