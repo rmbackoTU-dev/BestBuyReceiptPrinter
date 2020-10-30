@@ -12,11 +12,27 @@ public class SecondaryHeader implements Addon {
 	
 	String headerText;
 	
+	/**
+	 * Default constructor
+	 */
 	public SecondaryHeader()
 	{
 		this.headerText="";
 	}
 	
+	/**
+	 * Parameter constructor
+	 * @param textForHeader
+	 */
+	public SecondaryHeader(String textForHeader)
+	{
+		setHeaderText(textForHeader);
+	}
+	
+	/**
+	 * setter for the headerText
+	 * @param textForHeader
+	 */
 	public void setHeaderText(String textForHeader)
 	{
 		this.headerText=textForHeader;

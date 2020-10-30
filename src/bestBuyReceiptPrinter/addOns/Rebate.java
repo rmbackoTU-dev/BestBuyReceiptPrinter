@@ -33,19 +33,46 @@ public class Rebate implements Addon{
 	/**
 	 * Parameterize Constructor
 	 * @param moneyBack
-	 * @param textForRebate
 	 */
-	public Rebate(BigDecimal moneyBack, String textForRebate)
+	public Rebate(BigDecimal moneyBack)
 	{
 		this.amountOff=moneyBack;
 		this.amountOff=amountOff.setScale(2,RoundingMode.CEILING);
-		rebateCounter=rebateCounter+1;
-		this.rebateId=rebateCounter;
+	    rebateCounter=rebateCounter+1;
+		this.rebateId=rebateCounter;	
+	}
+
+	
+	public static int getCounter()
+	{
+		return rebateCounter;
+	}
+	
+	@Override
+	public void finalize()
+	{
+
+	    try 
+	    {
+	    	rebateCounter=rebateCounter-1;
+	    	super.finalize();
+		}
+	    catch (Throwable e)
+	    {
+	    	rebateCounter=rebateCounter-1;
+			e.printStackTrace();
+			System.err.println("There was an error with your rebate");
+		}
 	}
 	
 	public void setAmountOff(BigDecimal moneyBack)
 	{
 		this.amountOff=moneyBack;
+	}
+	
+	public BigDecimal getAmountOff()
+	{
+		return this.amountOff;
 	}
 	
 	/**
@@ -75,7 +102,7 @@ public class Rebate implements Addon{
 		return rebateText;
 	}
 	
-	public int getSetRebateId() 
+	public int getRebateId() 
 	{
 		return this.rebateId;
 	}

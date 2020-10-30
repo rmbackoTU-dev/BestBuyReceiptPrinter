@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
-public class testCoupon {
+public class TestCoupon {
 
 	
 	private static final String COUPON_DESCRIPTION_DEFAULT="";

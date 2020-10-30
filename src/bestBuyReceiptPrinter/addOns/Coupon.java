@@ -35,7 +35,6 @@ public class Coupon implements Addon {
 		couponQualifyingTotal = new BigDecimal(0);
 		couponQualifyingTotal= 
 				couponQualifyingTotal.setScale(2, RoundingMode.CEILING);
-		long millis=System.currentTimeMillis();
 		LocalDate todaysDate=LocalDate.now();
 		int addYear=0;
 		int addMonth=0;
@@ -46,11 +45,28 @@ public class Coupon implements Addon {
 			addMonth=1;
 			addDate=todaysDate.getDayOfMonth();
 		}
-		else if(todaysDate.getMonth() == Month.FEBRUARY && todaysDate.getDayOfMonth() >28);
+		else if(todaysDate.getMonth() == Month.JANUARY && todaysDate.getDayOfMonth() >28)
 		{
 			addYear=todaysDate.getYear();
 			addDate=27;
 			addMonth=todaysDate.getMonthValue()+1;
+		}
+		{
+			addYear=todaysDate.getYear();
+			addMonth=todaysDate.getMonthValue()+1;
+			if(addMonth == Month.MARCH.getValue() ||
+				addMonth == Month.MAY.getValue() ||
+				addMonth == Month.JULY.getValue() ||
+				addMonth == Month.AUGUST.getValue() ||
+				addMonth == Month.OCTOBER.getValue() ||
+				addMonth == Month.DECEMBER.getValue())
+			{
+				addDate=todaysDate.getDayOfMonth();
+			}
+			else
+			{
+				addDate=todaysDate.getDayOfMonth()-1;
+			}
 		}
 		this.experationDate=LocalDate.of(addYear, addMonth, addDate);
 		this.description="";
@@ -77,7 +93,6 @@ public class Coupon implements Addon {
 
 	@Override
 	public boolean applies(PurchasedItems items) {
-		// TODO Auto-generated method stub
 		boolean applyAddon=false;
 		Iterator<StoreItem> itemsIterator=items.getItemsIterator();
 		BigDecimal totalPrice=new BigDecimal(0);

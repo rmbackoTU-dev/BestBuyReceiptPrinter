@@ -22,15 +22,26 @@ public class AddonList {
 	
 	public void removeAddon(Addon addonToRemove)
 	{
-		addons.remove(addonToRemove);
+			addons.remove(addonToRemove);
 	}
 	
-	public class addOnsIterator
+	public AddOnsIterator getIterator()
+	{
+		return new AddOnsIterator();
+	}
+	
+	public int getListSize()
+	{
+		return this.addons.size();
+	}
+	
+	
+	public class AddOnsIterator
 	{
 		private Addon currentItem;
 		private int currentIndex;
 		
-		public addOnsIterator()
+		public AddOnsIterator()
 		{
 			currentIndex=0;
 			if(!(AddonList.this.addons.isEmpty()))
