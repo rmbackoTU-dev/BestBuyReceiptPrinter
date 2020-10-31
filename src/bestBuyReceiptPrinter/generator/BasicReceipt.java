@@ -18,11 +18,8 @@ public class BasicReceipt implements Receipt {
 		public void setTaxComputationMethod(TaxComputationMethod tc) {
 			this.tc = tc; }
 
-		public void prtReceipt() {
-			String chainName = "BEST BUY";
-			System.out.printf("%-15s %32s %n", chainName, store_header.storeNumber);
-			System.out.printf("%-15s %15s %n", store_header.streetAddress, store_header.phoneNumber);
-			System.out.printf("%-15s %n", store_header.stateCode, store_header.zipCode);
+		public void printReceipt() {
+
 		}
 	}
 
