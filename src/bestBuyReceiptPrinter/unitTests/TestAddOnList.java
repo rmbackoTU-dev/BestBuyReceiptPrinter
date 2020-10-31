@@ -11,9 +11,9 @@ import java.time.LocalDate;
 import java.time.Month;
 import bestBuyReceiptPrinter.addOns.AddonList;
 import bestBuyReceiptPrinter.addOns.AddonList.AddOnsIterator;
-import bestBuyReceiptPrinter.addOns.Coupon;
-import bestBuyReceiptPrinter.addOns.Rebate;
-import bestBuyReceiptPrinter.addOns.SecondaryHeader;
+import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
+import bestBuyReceiptPrinter.addOns.RebateOne;
+import bestBuyReceiptPrinter.addOns.HolidayHeader;
 import bestBuyReceiptPrinter.addOns.Addon;
 
 public class TestAddOnList {
@@ -72,10 +72,10 @@ public class TestAddOnList {
 	@Test
 	public void testAddAnAddon()
 	{
-		Addon testAddon=new Coupon();
+		Addon testAddon=new TenPercentCoupon();
 		this.testAddonList.addAddOn(testAddon);
 		AddOnsIterator listIterator=this.testAddonList.getIterator();
-		Coupon actualItem=(Coupon) listIterator.getCurrentItem();
+		TenPercentCoupon actualItem=(TenPercentCoupon) listIterator.getCurrentItem();
 		int expectedPercentageOff=0;
 		String expectedDescription="";
 		this.setUpExpectedExpirationDates();
@@ -93,9 +93,9 @@ public class TestAddOnList {
 	@Test
 	public void testAddAllTheAddons()
 	{
-		Addon testAddonOne=new Coupon();
-		Addon testAddonTwo=new Rebate();
-		Addon testAddonThree=new SecondaryHeader();
+		Addon testAddonOne=new TenPercentCoupon();
+		Addon testAddonTwo=new RebateOne();
+		Addon testAddonThree=new HolidayHeader();
 		this.testAddonList.addAddOn(testAddonOne);
 		this.testAddonList.addAddOn(testAddonTwo);
 		this.testAddonList.addAddOn(testAddonThree);
@@ -126,7 +126,7 @@ public class TestAddOnList {
 					expectedItemGetLines="$"+expectedRebateAmount.toString()+" REBATE (#"+expectedRebateId+")";
 					actualItemGetLines=currentItem.getLines();
 					Assertions.assertEquals(expectedItemGetLines, actualItemGetLines);
-					Rebate castToRebate=(Rebate) currentItem;
+					RebateOne castToRebate=(RebateOne) currentItem;
 					castToRebate.finalize();
 				}
 				else
@@ -151,8 +151,8 @@ public class TestAddOnList {
 	@Test
 	public void testRemoveAnAddon()
 	{
-		Addon itemOne=new Coupon();
-		Addon itemTwo=new Coupon();
+		Addon itemOne=new TenPercentCoupon();
+		Addon itemTwo=new TenPercentCoupon();
 		this.testAddonList.addAddOn(itemOne);
 		this.testAddonList.addAddOn(itemTwo);
 		this.testAddonList.removeAddon(itemTwo);
@@ -162,8 +162,8 @@ public class TestAddOnList {
 		AddOnsIterator listIter=this.testAddonList.getIterator();
 		try
 		{
-			Coupon actualCoupon=(Coupon)listIter.getCurrentItem();
-			Coupon expectedCoupon=(Coupon) itemOne;
+			TenPercentCoupon actualCoupon=(TenPercentCoupon)listIter.getCurrentItem();
+			TenPercentCoupon expectedCoupon=(TenPercentCoupon) itemOne;
 			Assertions.assertEquals(expectedCoupon.getCouponDescription(),
 					actualCoupon.getCouponDescription());
 		}
@@ -176,10 +176,10 @@ public class TestAddOnList {
 	@Test
 	public void testAddonIteratorConstructor()
 	{
-		Addon newItem=new Coupon();
+		Addon newItem=new TenPercentCoupon();
 		this.testAddonList.addAddOn(newItem);
 		AddOnsIterator listIter=testAddonList.getIterator();
-		Coupon actualAddon=(Coupon)listIter.getCurrentItem();
+		TenPercentCoupon actualAddon=(TenPercentCoupon)listIter.getCurrentItem();
 		String actualDescript=actualAddon.getCouponDescription();
 		String expectedDescript="";
 		Assertions.assertEquals(expectedDescript, actualDescript);
@@ -199,8 +199,8 @@ public class TestAddOnList {
 	@Test
 	public void testAddonIteratorHasNextTrue()
 	{
-		Addon newItem=new Coupon();
-		Addon newItemTwo=new Coupon();
+		Addon newItem=new TenPercentCoupon();
+		Addon newItemTwo=new TenPercentCoupon();
 		this.testAddonList.addAddOn(newItem);
 		this.testAddonList.addAddOn(newItemTwo);
 		AddOnsIterator listIter=testAddonList.getIterator();
@@ -210,7 +210,7 @@ public class TestAddOnList {
 	@Test
 	public void testAddonIteratorHasNextFalse()
 	{
-		Addon newItem=new Coupon();
+		Addon newItem=new TenPercentCoupon();
 		this.testAddonList.addAddOn(newItem);
 		AddOnsIterator listIter=testAddonList.getIterator();
 		Assertions.assertFalse(listIter.hasNext());
@@ -219,32 +219,32 @@ public class TestAddOnList {
 	@Test
 	public void testAddonIteratorGetNext()
 	{
-		Addon newItem=new Rebate();
-		Addon newItemTwo=new Rebate();
+		Addon newItem=new RebateOne();
+		Addon newItemTwo=new RebateOne();
 		this.testAddonList.addAddOn(newItem);
 		this.testAddonList.addAddOn(newItemTwo);
 	    AddOnsIterator listIter=testAddonList.getIterator();
 	    listIter.next();
 	    try
 	    {
-	    	Rebate expectedItem=(Rebate) listIter.getCurrentItem();
+	    	RebateOne expectedItem=(RebateOne) listIter.getCurrentItem();
 	    	int rebateId=expectedItem.getRebateId();
 	    	Assertions.assertTrue(rebateId == 2);
 	    	expectedItem.finalize();
-	    	System.out.println("COUNTER: "+Rebate.getCounter());
+	    	System.out.println("COUNTER: "+RebateOne.getCounter());
 	    	//finalize the remaining item
-	    	expectedItem=(Rebate) newItem;
+	    	expectedItem=(RebateOne) newItem;
 	    	expectedItem.finalize();
-	    	System.out.println("COUNTER: "+Rebate.getCounter());
+	    	System.out.println("COUNTER: "+RebateOne.getCounter());
 	    }
 	    catch(IllegalStateException e)
 	    {
-	    	Rebate newItemDeconstruct=(Rebate) newItem;
-	    	Rebate newItemTwoDeconstruct=(Rebate) newItemTwo;
+	    	RebateOne newItemDeconstruct=(RebateOne) newItem;
+	    	RebateOne newItemTwoDeconstruct=(RebateOne) newItemTwo;
 	    	newItemDeconstruct.finalize();
-	    	System.out.println("COUNTER: "+Rebate.getCounter());
+	    	System.out.println("COUNTER: "+RebateOne.getCounter());
 	    	newItemTwoDeconstruct.finalize();
-	    	System.out.println("COUNTER: "+Rebate.getCounter());
+	    	System.out.println("COUNTER: "+RebateOne.getCounter());
 	    	Assertions.fail("Illegal state was reached in addon list.");
 	    }
 	 
@@ -262,18 +262,18 @@ public class TestAddOnList {
 	@Test
 	public void testAddonIteratorGetNextNoNext()
 	{
-		Addon newItem=new Rebate();
-		Addon newItemTwo=new Rebate();
+		Addon newItem=new RebateOne();
+		Addon newItemTwo=new RebateOne();
 		this.testAddonList.addAddOn(newItem);
 	    AddOnsIterator listIter=testAddonList.getIterator();
 	    Assertions.assertThrows(IllegalStateException.class, () -> {
 	    	listIter.next();
 	    	});
-	    Rebate castToRebateOne=(Rebate) newItem;
-	    Rebate castToRebateTwo=(Rebate) newItemTwo;
+	    RebateOne castToRebateOne=(RebateOne) newItem;
+	    RebateOne castToRebateTwo=(RebateOne) newItemTwo;
 	    castToRebateOne.finalize();
-	    System.out.println("COUNTER: "+Rebate.getCounter());
+	    System.out.println("COUNTER: "+RebateOne.getCounter());
 	    castToRebateTwo.finalize();
-	    System.out.println("COUNTER: "+Rebate.getCounter());
+	    System.out.println("COUNTER: "+RebateOne.getCounter());
 	 }
 }

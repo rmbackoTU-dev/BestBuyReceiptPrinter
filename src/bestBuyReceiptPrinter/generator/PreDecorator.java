@@ -1,6 +1,6 @@
 package bestBuyReceiptPrinter.generator;
 
-import bestBuyReceiptPrinter.addOns.SecondaryHeader;
+import bestBuyReceiptPrinter.addOns.WinterHolidayHeader;
 
 /**
  * Class adds necessary header addons to receipt
@@ -9,5 +9,5 @@ import bestBuyReceiptPrinter.addOns.SecondaryHeader;
  */
 public class PreDecorator extends ReceiptDecorator {
 
-	private SecondaryHeader currentHeader;
+	private WinterHolidayHeader currentHeader;
 }

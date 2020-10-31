@@ -2,7 +2,7 @@ package bestBuyReceiptPrinter.clientCode;
 
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
 import bestBuyReceiptPrinter.generator.Receipt;
-import bestBuyReceiptPrinter.addOns.Coupon;
+import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
 import java.util.Date;
 import java.math.BigDecimal;
 /**
@@ -19,7 +19,7 @@ public class ReceiptFactory {
 			
 		}
 
-		public Receipt getReceipt(PurchasedItems itemsBought, Date today, Coupon coupon)
+		public Receipt getReceipt(PurchasedItems itemsBought, Date today, TenPercentCoupon coupon)
 		{
 			//TODO: Use Data to decide which taxComputation applies
 			Receipt newReceipt=null;

@@ -2,7 +2,7 @@ package bestBuyReceiptPrinter.unitTests;
 
 import org.junit.jupiter.api.Test;
 
-import bestBuyReceiptPrinter.addOns.Coupon;
+import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 
@@ -13,7 +13,7 @@ import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.time.Month;
 
-public class TestCoupon {
+public class TestTenPercentCoupon {
 
 	
 	private static final String COUPON_DESCRIPTION_DEFAULT="";
@@ -64,7 +64,7 @@ public class TestCoupon {
 	@Test
 	public void testCouponDefaultConstructor()
 	{
-		Coupon testCoupon=new Coupon();
+		TenPercentCoupon testCoupon=new TenPercentCoupon();
 		this.setUpExpectedExpirationDates();
 		BigDecimal qualifyingTotalDefault=new BigDecimal(0);
 		qualifyingTotalDefault=qualifyingTotalDefault.setScale(2, RoundingMode.CEILING);
@@ -99,7 +99,7 @@ public class TestCoupon {
 		int expectedDay=couponExpirationDate.getDayOfMonth();
 		double expectedQualifyingTotalAsDouble=expectedQualifyingTotalDefault.doubleValue();
 		//CONSTRUCTOR
-		Coupon testCoupon=new Coupon(expectedQualifyingTotalDefault, couponExpirationDate,
+		TenPercentCoupon testCoupon=new TenPercentCoupon(expectedQualifyingTotalDefault, couponExpirationDate,
 			expectedPercentageParam, expectedDescription);
 		//CONSTRUCTOR
 		//Actual params
@@ -133,7 +133,7 @@ public class TestCoupon {
 		double inputQualifyingTotalAsDouble=inputQualifyingTotalDefault.doubleValue();
 		double expectedQualifyingTotalAsDouble=21.00;
 		//CONSTRUCTOR
-		Coupon testCoupon=new Coupon(inputQualifyingTotalDefault, couponExpirationDate,
+		TenPercentCoupon testCoupon=new TenPercentCoupon(inputQualifyingTotalDefault, couponExpirationDate,
 			expectedPercentageParam, expectedDescription);
 		//CONSTRUCTOR
 		//Actual params
@@ -154,7 +154,7 @@ public class TestCoupon {
 	   BigDecimal couponTotal=new BigDecimal(499.99);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   Coupon testCoupon=new Coupon(couponTotal, couponExpiration,
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
 			   10, "BEST BUY");
 	   Assertions.assertTrue(testCoupon.applies(allItems));
 	}
@@ -172,7 +172,7 @@ public class TestCoupon {
 	   BigDecimal couponTotal=new BigDecimal(799.00);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   Coupon testCoupon=new Coupon(couponTotal, couponExpiration,
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
 			   10, "BEST BUY");
 	   Assertions.assertTrue(testCoupon.applies(allItems));
 
@@ -194,7 +194,7 @@ public class TestCoupon {
 	   BigDecimal couponTotal=new BigDecimal(1099.97);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   Coupon testCoupon=new Coupon(couponTotal, couponExpiration,
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
 			   10, "BEST BUY");
 	   Assertions.assertTrue(testCoupon.applies(allItems));
 	}
@@ -215,7 +215,7 @@ public class TestCoupon {
 	   BigDecimal couponTotal=new BigDecimal(1500.00);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   Coupon testCoupon=new Coupon(couponTotal, couponExpiration,
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
 			   10, "BEST BUY");
 	   Assertions.assertFalse(testCoupon.applies(allItems));
 
@@ -224,7 +224,7 @@ public class TestCoupon {
 	@Test
 	public void testGetLines()
 	{
-		Coupon newCoupon=new Coupon();
+		TenPercentCoupon newCoupon=new TenPercentCoupon();
 		this.setUpExpectedExpirationDates();
 		String couponStringInput=this.COUPON_DESCRIPTION_DEFAULT+" COUPON:"+this.COUPON_PERCENTAGE_DEFAULT+
 				" off next purchase.\n "+"Good until "+this.newExpiration.toString();

@@ -2,19 +2,19 @@ package bestBuyReceiptPrinter.unitTests;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import bestBuyReceiptPrinter.addOns.Rebate;
+import bestBuyReceiptPrinter.addOns.RebateOne;
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 
-public class TestRebate {
+public class TestRebateOne {
 
 	@Test
 	public void testRebateConstruct()
 	{
-		Rebate newRebate=new Rebate();
-		Rebate newRebateTwo=new Rebate();
+		RebateOne newRebate=new RebateOne();
+		RebateOne newRebateTwo=new RebateOne();
 		BigDecimal defaultRebateAmount=new BigDecimal(0);
 		defaultRebateAmount=defaultRebateAmount.setScale(2, RoundingMode.CEILING);
 		BigDecimal actualDefaultRebateAmount=newRebate.getAmountOff();
@@ -32,8 +32,8 @@ public class TestRebate {
 	{
 		BigDecimal rebateAmountParam=new BigDecimal(10.99);
 		rebateAmountParam=rebateAmountParam.setScale(2, RoundingMode.CEILING);
-		Rebate newRebate=new Rebate(rebateAmountParam);
-		Rebate newRebateTwo=new Rebate(rebateAmountParam);
+		RebateOne newRebate=new RebateOne(rebateAmountParam);
+		RebateOne newRebateTwo=new RebateOne(rebateAmountParam);
 		double expectedRebateAmountAsDouble=rebateAmountParam.doubleValue();
 		BigDecimal actualRebateAmount=newRebate.getAmountOff();
 		double actualRebateAmountAsDouble=rebateAmountParam.doubleValue();
@@ -46,7 +46,7 @@ public class TestRebate {
 	@Test
 	public void testRebateSetter()
 	{
-		Rebate newRebate=new Rebate();
+		RebateOne newRebate=new RebateOne();
 BigDecimal setRebate=new BigDecimal(20.99);
 		setRebate.setScale(2, RoundingMode.CEILING);
 		newRebate.setAmountOff(setRebate);
@@ -62,7 +62,7 @@ BigDecimal setRebate=new BigDecimal(20.99);
 	{
 		BigDecimal setRebate=new BigDecimal(20.99);
 		setRebate.setScale(2, RoundingMode.CEILING);
-		Rebate newRebate= new Rebate(setRebate);
+		RebateOne newRebate= new RebateOne(setRebate);
 		BigDecimal actualRebate=newRebate.getAmountOff();
 		double actualRebateAsDouble=actualRebate.doubleValue();
 		double expectedRebateAsDouble=setRebate.doubleValue();
@@ -74,7 +74,7 @@ BigDecimal setRebate=new BigDecimal(20.99);
 	{
 		BigDecimal setRebate=new BigDecimal(20.99);
 		setRebate.setScale(2, RoundingMode.CEILING);
-		Rebate newRebate= new Rebate(setRebate);
+		RebateOne newRebate= new RebateOne(setRebate);
 		String storeItemDecription="Dell XPS 15";
 		BigDecimal itemPrice=new BigDecimal(1899.00);
 		itemPrice=itemPrice.setScale(2, RoundingMode.CEILING);
@@ -90,7 +90,7 @@ BigDecimal setRebate=new BigDecimal(20.99);
 	{
 		BigDecimal setRebate=new BigDecimal(20.99);
 		setRebate.setScale(2, RoundingMode.CEILING);
-		Rebate newRebate= new Rebate(setRebate);
+		RebateOne newRebate= new RebateOne(setRebate);
 		String storeItemDescription="MSI Prestige 15";
 		BigDecimal itemPrice=new BigDecimal(1799.00);
 		String storeItemDescriptionTwo="Dell XPS 15";
@@ -110,7 +110,7 @@ BigDecimal setRebate=new BigDecimal(20.99);
 	{
 		BigDecimal setRebate=new BigDecimal(20.99);
 		setRebate.setScale(2, RoundingMode.CEILING);
-		Rebate newRebate= new Rebate(setRebate);
+		RebateOne newRebate= new RebateOne(setRebate);
 		String storeItemDescription="MSI Prestige 15";
 		BigDecimal itemPrice=new BigDecimal(1799.00);
 		String storeItemDescriptionTwo="Dell XPS 15";
@@ -136,7 +136,7 @@ BigDecimal setRebate=new BigDecimal(20.99);
 	{
 		BigDecimal setRebate=new BigDecimal(20.99);
 		setRebate.setScale(2, RoundingMode.CEILING);
-		Rebate newRebate= new Rebate(setRebate);
+		RebateOne newRebate= new RebateOne(setRebate);
 		String storeItemDescription="MSI Prestige 15";
 		BigDecimal itemPrice=new BigDecimal(1799.00);
 		String storeItemDescriptionTwo="Dell XPS 15";
@@ -161,7 +161,7 @@ BigDecimal setRebate=new BigDecimal(20.99);
 	{
 		BigDecimal setRebate=new BigDecimal(20.99);
 		setRebate.setScale(2, RoundingMode.CEILING);
-		Rebate newRebate= new Rebate(setRebate);
+		RebateOne newRebate= new RebateOne(setRebate);
 		BigDecimal rebateAmountOff=newRebate.getAmountOff();
 		int amountRebateId=newRebate.getRebateId();
 		String expectedGetLines="$"+rebateAmountOff.toString()+" REBATE (#"+amountRebateId+")";
