@@ -17,7 +17,7 @@ public class TestTenPercentCoupon {
 
 	
 	private static final String COUPON_DESCRIPTION_DEFAULT="";
-	private static final int COUPON_PERCENTAGE_DEFAULT=0;
+	private static final int COUPON_PERCENTAGE_DEFAULT=10;
 	private LocalDate newExpiration;
 	private int newExpirationYear;
 	private int newExpirationMonth;
@@ -72,7 +72,7 @@ public class TestTenPercentCoupon {
 		int actualPercentage = testCoupon.getPercentageOff();
 		LocalDate actualExpiration=testCoupon.getExperationDate();
 		String actualDescription=testCoupon.getCouponDescription();
-		BigDecimal actualQualifying=testCoupon.getCouponQualifyingTotal();
+		BigDecimal actualQualifying=testCoupon.getQualifyingAmount();
 		int actualMonth=actualExpiration.getMonthValue();
 		int actualYear=actualExpiration.getYear();
 		int actualDate=actualExpiration.getDayOfMonth();
@@ -91,19 +91,18 @@ public class TestTenPercentCoupon {
 		//expected params
 		BigDecimal expectedQualifyingTotalDefault=new BigDecimal(20.99);
 		expectedQualifyingTotalDefault=expectedQualifyingTotalDefault.setScale(2, RoundingMode.CEILING);
-		int expectedPercentageParam=10;
-		String expectedDescription="BEST BUY ";
+		String expectedDescription="BEST BUY";
 		LocalDate couponExpirationDate=LocalDate.of(2021, 12, 28);
 		int expectedYear=couponExpirationDate.getYear();
 		int expectedMonth=couponExpirationDate.getMonthValue();
 		int expectedDay=couponExpirationDate.getDayOfMonth();
 		double expectedQualifyingTotalAsDouble=expectedQualifyingTotalDefault.doubleValue();
 		//CONSTRUCTOR
-		TenPercentCoupon testCoupon=new TenPercentCoupon(expectedQualifyingTotalDefault, couponExpirationDate,
-			expectedPercentageParam, expectedDescription);
+		 TenPercentCoupon testCoupon=new TenPercentCoupon(
+				    expectedDescription, couponExpirationDate, expectedQualifyingTotalDefault);
 		//CONSTRUCTOR
 		//Actual params
-		BigDecimal actualQualifyingTotal=testCoupon.getCouponQualifyingTotal();
+		BigDecimal actualQualifyingTotal=testCoupon.getQualifyingAmount();
 		int actualPercentageParam=testCoupon.getPercentageOff();
 		String actualDescription=testCoupon.getCouponDescription();
 		LocalDate actualExpirationDate=testCoupon.getExperationDate();
@@ -113,7 +112,6 @@ public class TestTenPercentCoupon {
 		double actualQualifyingTotalAsDouble=actualQualifyingTotal.doubleValue();
 		//ASSERTIONS
 		Assertions.assertEquals(expectedDescription, actualDescription);
-		Assertions.assertEquals(expectedPercentageParam, actualPercentageParam);
 		Assertions.assertEquals(expectedYear, actualYear);
 		Assertions.assertEquals(expectedMonth, actualMonth);
 		Assertions.assertEquals(expectedDay, actualDate);
@@ -127,17 +125,16 @@ public class TestTenPercentCoupon {
 			//expected params
 		BigDecimal inputQualifyingTotalDefault=new BigDecimal(20.997);
 		inputQualifyingTotalDefault=inputQualifyingTotalDefault.setScale(2, RoundingMode.CEILING);
-		int expectedPercentageParam=10;
 		String expectedDescription="BEST BUY ";
 		LocalDate couponExpirationDate=LocalDate.of(2021, 12, 28);
 		double inputQualifyingTotalAsDouble=inputQualifyingTotalDefault.doubleValue();
 		double expectedQualifyingTotalAsDouble=21.00;
 		//CONSTRUCTOR
-		TenPercentCoupon testCoupon=new TenPercentCoupon(inputQualifyingTotalDefault, couponExpirationDate,
-			expectedPercentageParam, expectedDescription);
+		TenPercentCoupon testCoupon=new TenPercentCoupon(expectedDescription,
+			    couponExpirationDate,  inputQualifyingTotalDefault);
 		//CONSTRUCTOR
 		//Actual params
-		BigDecimal actualQualifyingTotal=testCoupon.getCouponQualifyingTotal();
+		BigDecimal actualQualifyingTotal=testCoupon.getQualifyingAmount();
 		double actualQualifyingTotalAsDouble=actualQualifyingTotal.doubleValue();
 		//ASSERTIONS
 		Assertions.assertEquals(actualQualifyingTotalAsDouble, expectedQualifyingTotalAsDouble);
@@ -149,19 +146,21 @@ public class TestTenPercentCoupon {
 	   BigDecimal itemOnePrice=new BigDecimal(499.99);
 	   itemOnePrice=itemOnePrice.setScale(2, RoundingMode.CEILING);
 	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice, -1);
+	   String expectedDescription="Xbox Series X";
 	   PurchasedItems allItems=new PurchasedItems();
 	   allItems.addItem(itemOne);
 	   BigDecimal couponTotal=new BigDecimal(499.99);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
-			   10, "BEST BUY");
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(expectedDescription,
+			    couponExpiration,  itemOnePrice);
 	   Assertions.assertTrue(testCoupon.applies(allItems));
 	}
 	
 	@Test
 	public void testAppliesTwoItems()
 	{
+	  String couponDescript="Game Consoles";
 	   BigDecimal itemOnePrice=new BigDecimal(499.99);
 	   BigDecimal itemTwoPrice=new BigDecimal(299.99);
 	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice, -1);
@@ -172,8 +171,8 @@ public class TestTenPercentCoupon {
 	   BigDecimal couponTotal=new BigDecimal(799.00);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
-			   10, "BEST BUY");
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponDescript, couponExpiration,
+			   couponTotal);
 	   Assertions.assertTrue(testCoupon.applies(allItems));
 
 	}
@@ -194,8 +193,8 @@ public class TestTenPercentCoupon {
 	   BigDecimal couponTotal=new BigDecimal(1099.97);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
-			   10, "BEST BUY");
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(
+			    "BEST BUY", couponExpiration, couponTotal);
 	   Assertions.assertTrue(testCoupon.applies(allItems));
 	}
 	
@@ -215,8 +214,8 @@ public class TestTenPercentCoupon {
 	   BigDecimal couponTotal=new BigDecimal(1500.00);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
-	   TenPercentCoupon testCoupon=new TenPercentCoupon(couponTotal, couponExpiration,
-			   10, "BEST BUY");
+	   TenPercentCoupon testCoupon=new TenPercentCoupon(
+			    "BEST BUY", couponExpiration, couponTotal);
 	   Assertions.assertFalse(testCoupon.applies(allItems));
 
 	}
