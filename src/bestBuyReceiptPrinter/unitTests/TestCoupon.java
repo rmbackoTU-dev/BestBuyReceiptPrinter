@@ -11,23 +11,63 @@ import org.junit.jupiter.api.Assertions;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.Month;
 
 public class TestCoupon {
 
 	
 	private static final String COUPON_DESCRIPTION_DEFAULT="";
 	private static final int COUPON_PERCENTAGE_DEFAULT=0;
-	private static final LocalDate COUPON_LOCAL_DATE_DEFAULT=LocalDate.of(2020, 11, 27);
+	private LocalDate newExpiration;
+	private int newExpirationYear;
+	private int newExpirationMonth;
+	private int newExpirationDate;
+ 
+	public void setUpExpectedExpirationDates()
+	{
+		LocalDate today =LocalDate.now();
+	    
+	    if(today.getMonth() == Month.DECEMBER)
+		{
+			this.newExpirationYear=today.getYear()+1;
+			this.newExpirationMonth=1;
+			this.newExpirationDate=today.getDayOfMonth();
+		}
+		else if(today.getMonth() == Month.JANUARY && today.getDayOfMonth() >28)
+		{
+			this.newExpirationYear=today.getYear();
+			this.newExpirationDate=27;
+			this.newExpirationYear=today.getMonthValue()+1;
+		}
+		else
+		{
+			this.newExpirationYear=today.getYear();
+			this.newExpirationMonth=today.getMonthValue()+1;
+			if(this.newExpirationMonth == Month.MARCH.getValue() ||
+				this.newExpirationMonth == Month.MAY.getValue() ||
+				this.newExpirationMonth == Month.JULY.getValue() ||
+				this.newExpirationMonth == Month.AUGUST.getValue() ||
+				this.newExpirationMonth == Month.OCTOBER.getValue() ||
+				this.newExpirationMonth == Month.DECEMBER.getValue())
+			{
+				this.newExpirationDate=today.getDayOfMonth();
+			}
+			else
+			{
+				this.newExpirationDate=today.getDayOfMonth()-1;
+			}
+		}
+	    this.newExpiration=LocalDate.of(this.newExpirationYear,
+	    		this.newExpirationMonth, this.newExpirationDate);
+	}
 	
 	@Test
 	public void testCouponDefaultConstructor()
 	{
 		Coupon testCoupon=new Coupon();
+		this.setUpExpectedExpirationDates();
 		BigDecimal qualifyingTotalDefault=new BigDecimal(0);
 		qualifyingTotalDefault=qualifyingTotalDefault.setScale(2, RoundingMode.CEILING);
-		int expectedYear=COUPON_LOCAL_DATE_DEFAULT.getYear();
-		int expectedMonth=COUPON_LOCAL_DATE_DEFAULT.getMonthValue();
-		int expectedDate=COUPON_LOCAL_DATE_DEFAULT.getDayOfMonth();
 		double expectedQualifyingAsDouble=qualifyingTotalDefault.doubleValue();
 		int actualPercentage = testCoupon.getPercentageOff();
 		LocalDate actualExpiration=testCoupon.getExperationDate();
@@ -39,9 +79,9 @@ public class TestCoupon {
 		double actualQualifyingAsDouble=actualQualifying.doubleValue();
 		Assertions.assertEquals(COUPON_DESCRIPTION_DEFAULT, actualDescription);
 		Assertions.assertEquals(COUPON_PERCENTAGE_DEFAULT, actualPercentage);
-		Assertions.assertEquals(actualMonth, expectedMonth);
-		Assertions.assertEquals(actualYear, expectedYear);
-		Assertions.assertEquals(actualDate, expectedDate);
+		Assertions.assertEquals(actualMonth, this.newExpirationMonth);
+		Assertions.assertEquals(actualYear, this.newExpirationYear);
+		Assertions.assertEquals(actualDate, this.newExpirationDate);
 		Assertions.assertEquals(actualQualifyingAsDouble, expectedQualifyingAsDouble);
 	}
 	
@@ -129,7 +169,7 @@ public class TestCoupon {
 	   PurchasedItems allItems=new PurchasedItems();
 	   allItems.addItem(itemOne);
 	   allItems.addItem(itemTwo);
-	   BigDecimal couponTotal=new BigDecimal(799.98);
+	   BigDecimal couponTotal=new BigDecimal(799.00);
 	   couponTotal=couponTotal.setScale(2, RoundingMode.CEILING);
 	   LocalDate couponExpiration=LocalDate.of(2021, 12, 31);
 	   Coupon testCoupon=new Coupon(couponTotal, couponExpiration,
@@ -185,8 +225,9 @@ public class TestCoupon {
 	public void testGetLines()
 	{
 		Coupon newCoupon=new Coupon();
+		this.setUpExpectedExpirationDates();
 		String couponStringInput=this.COUPON_DESCRIPTION_DEFAULT+" COUPON:"+this.COUPON_PERCENTAGE_DEFAULT+
-				" off next purchase.\n "+"Good until "+this.COUPON_LOCAL_DATE_DEFAULT.toString();
+				" off next purchase.\n "+"Good until "+this.newExpiration.toString();
 		Assertions.assertEquals(couponStringInput, newCoupon.getLines());
 	}
 }

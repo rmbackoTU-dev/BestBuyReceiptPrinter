@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.Iterator;
 
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
+import bestBuyReceiptPrinter.clientCode.data.PurchasedItems.PurchasedItemsIterator;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 
 /**
@@ -82,15 +83,24 @@ public class Rebate implements Addon{
 	 */
 	public boolean applies(PurchasedItems items)
 	{
-		Iterator<StoreItem> itemsIterator=items.getItemsIterator();
-		StoreItem currentItem;
+		//Iterator<StoreItem> itemsIterator=items.getItemsIterator();
+		PurchasedItemsIterator itemsIterator=items.getPurchasedItemsIter();
+		StoreItem currentItem=itemsIterator.getCurrentItem();
 		boolean applies=false;
-		while(itemsIterator.hasNext())
+		if(currentItem.getRebateId()== this.rebateId)
 		{
-			currentItem=itemsIterator.next();
-			if(currentItem.getRebateId()== this.rebateId)
-			{
-				applies=true;
+			applies=true;
+		}
+		else
+		{
+			while(itemsIterator.hasNext())
+			{	
+				itemsIterator.next();
+				currentItem=itemsIterator.getCurrentItem();
+				if(currentItem.getRebateId()== this.rebateId)
+				{
+					applies=true;
+				}
 			}
 		}
 		return applies;

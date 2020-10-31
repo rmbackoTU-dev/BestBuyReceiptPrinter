@@ -10,6 +10,7 @@ import java.time.MonthDay;
 import java.util.Iterator;
 
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
+import bestBuyReceiptPrinter.clientCode.data.PurchasedItems.PurchasedItemsIterator;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 
 /**
@@ -94,19 +95,21 @@ public class Coupon implements Addon {
 	@Override
 	public boolean applies(PurchasedItems items) {
 		boolean applyAddon=false;
-		Iterator<StoreItem> itemsIterator=items.getItemsIterator();
+//		Iterator<StoreItem> itemsIterator=items.getItemsIterator();
+		PurchasedItemsIterator itemsIterator=items.getPurchasedItemsIter();
 		BigDecimal totalPrice=new BigDecimal(0);
 		totalPrice=totalPrice.setScale(2, RoundingMode.CEILING);
 		BigDecimal currentItemPrice;
-		StoreItem currentItem;
-		if(itemsIterator.hasNext())
+		StoreItem currentItem=itemsIterator.getCurrentItem();
+		if(currentItem != null)
 		{
-			currentItem=(StoreItem) itemsIterator.next();
+			currentItem=(StoreItem) itemsIterator.getCurrentItem();
 			currentItemPrice= currentItem.getPrice();
 			totalPrice=totalPrice.add(currentItemPrice);
 			while(itemsIterator.hasNext())
 			{
-				currentItem=(StoreItem) itemsIterator.next();
+				itemsIterator.next();
+				currentItem=(StoreItem) itemsIterator.getCurrentItem();
 				currentItemPrice= currentItem.getPrice();
 				totalPrice=totalPrice.add(currentItemPrice);
 			}
