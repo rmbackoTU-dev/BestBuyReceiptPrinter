@@ -40,7 +40,7 @@ public class StoreHeader {
     }
 
     public String toString() {
-        return String.format("%9s %16s %n %-15s %15s %n %-15s %n", chainName, store_header.storeNumber,
-                store_header.streetAddress, store_header.phoneNumber, store_header.stateCode, store_header.zipCode);
+        return String.format("%9s %16s %n %-15s %15s %n %-15s %n", "BEST BUY", store_num,
+                street_addr, phone_num, state_code, zip_code);
     }
 }
