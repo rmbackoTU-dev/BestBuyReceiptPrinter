@@ -136,4 +136,59 @@ public class TestPurchasedItems {
 		newItemTwo.finalize();
 	}
 	
+	@Test
+	public void testGetTotal()
+	{
+		BigDecimal price=new BigDecimal(10.99);
+		price=price.setScale(2, RoundingMode.CEILING);
+		String expectedDescription="itemOne";
+		String expectedDescriptionTwo="itemTwo";
+		int expectedRebateId=-1;
+		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		this.testItems.addItem(newItemOne);
+		this.testItems.addItem(newItemTwo);
+		BigDecimal expectedPriceDouble=price.add(price);
+		BigDecimal totalPrice=this.testItems.getTotalPrice();
+		double totalPriceDouble=totalPrice.doubleValue();
+		double expectedTotalPrice=expectedPriceDouble.doubleValue();
+		Assertions.assertEquals(expectedTotalPrice, totalPriceDouble);
+		newItemOne.finalize();
+		newItemTwo.finalize();
+	}
+	
+	@Test
+	public void testContainsItemTrue()
+	{
+		BigDecimal price=new BigDecimal(10.99);
+		price=price.setScale(2, RoundingMode.CEILING);
+		String expectedDescription="itemOne";
+		String expectedDescriptionTwo="itemTwo";
+		int expectedRebateId=-1;
+		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		this.testItems.addItem(newItemOne);
+		this.testItems.addItem(newItemTwo);
+		Assertions.assertTrue(this.testItems.containsItem(2));
+		newItemOne.finalize();
+		newItemTwo.finalize();
+	}
+	
+	@Test
+	public void testContainsItemFalse()
+	{
+		BigDecimal price=new BigDecimal(10.99);
+		price=price.setScale(2, RoundingMode.CEILING);
+		String expectedDescription="itemOne";
+		String expectedDescriptionTwo="itemTwo";
+		int expectedRebateId=-1;
+		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		this.testItems.addItem(newItemOne);
+		this.testItems.addItem(newItemTwo);
+		Assertions.assertFalse(this.testItems.containsItem(3));
+		newItemOne.finalize();
+		newItemTwo.finalize();
+	}
+	
 }

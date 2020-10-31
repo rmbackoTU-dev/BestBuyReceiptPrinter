@@ -46,7 +46,51 @@ public class PurchasedItems {
 		BigDecimal totalPrice=new BigDecimal(0);
 		totalPrice=totalPrice.setScale(2, RoundingMode.CEILING);
 		PurchasedItemsIterator itemsIterator=new PurchasedItemsIterator();
-		return null;
+		StoreItem currentItem=itemsIterator.getCurrentItem();
+		if(currentItem != null)
+		{
+			totalPrice=totalPrice.add(currentItem.getPrice());
+			while(itemsIterator.hasNext())
+			{
+				itemsIterator.next();
+				totalPrice=totalPrice.add(currentItem.getPrice());
+			}
+		}
+		return totalPrice;
+	}
+	
+	public boolean containsItem(int itemNum)
+	{
+		boolean hasItem=false;
+		PurchasedItemsIterator itemsIterator=new PurchasedItemsIterator();
+		try
+		{
+			StoreItem currentItem=itemsIterator.getCurrentItem();
+			if(currentItem != null)
+			{
+				if(currentItem.getInventoryNum() == itemNum)
+				{
+					hasItem=true;
+				}
+				else
+				{
+					while(itemsIterator.hasNext())
+					{
+						itemsIterator.next();
+						currentItem=itemsIterator.getCurrentItem();
+						if(currentItem.getInventoryNum() == itemNum)
+						{
+							hasItem=true;
+						}
+					}
+				}
+			}
+		}
+		catch(IllegalStateException e)
+		{
+			System.err.println("No items have been purchased");
+		}
+		return hasItem;
 	}
 	
 	public class PurchasedItemsIterator
