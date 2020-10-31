@@ -1,5 +1,7 @@
 package bestBuyReceiptPrinter.clientCode.data;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -15,28 +17,36 @@ import bestBuyReceiptPrinter.addOns.AddonList;
 public class PurchasedItems {
 
 	private ArrayList<StoreItem> items;
+	private PurchasedItemsIterator iter;
 	
 	public PurchasedItems()
 	{
 		items=new ArrayList<StoreItem>();
+		iter=new PurchasedItemsIterator();
 	}
-	
-	public Iterator<StoreItem> getItemsIterator()
-	{
-		Iterator<StoreItem> itemsIterator=items.iterator();
-		return itemsIterator;
-	}
-	
 	
 	public PurchasedItemsIterator getPurchasedItemsIter()
 	{
-		PurchasedItemsIterator itemIterator=new PurchasedItemsIterator();
-		return itemIterator;
+		return iter;
 	}
 	
 	public void addItem(StoreItem item)
 	{
 		items.add(item);
+		iter.updateIterIntialPointer();
+	}
+
+	public void removeItem(StoreItem item)
+	{
+		items.remove(item);
+	}
+	
+	public BigDecimal getTotalPrice()
+	{
+		BigDecimal totalPrice=new BigDecimal(0);
+		totalPrice=totalPrice.setScale(2, RoundingMode.CEILING);
+		PurchasedItemsIterator itemsIterator=new PurchasedItemsIterator();
+		return null;
 	}
 	
 	public class PurchasedItemsIterator
@@ -108,6 +118,21 @@ public class PurchasedItems {
 				currentItem=PurchasedItems.this.items.get(currentIndex);
 			}
 			
+		}
+		
+		protected void updateIterIntialPointer()
+		{
+			if(currentItem == null)
+			{
+				if(!(PurchasedItems.this.items.isEmpty()))
+				{
+					this.currentItem=PurchasedItems.this.items.get(currentIndex);
+				}
+				else
+				{
+					currentItem=null;
+				}
+			}
 		}
 	}
 }
