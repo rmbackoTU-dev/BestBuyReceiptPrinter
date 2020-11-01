@@ -13,6 +13,7 @@ import bestBuyReceiptPrinter.addOns.TwentyFivePercentCoupon;
 import bestBuyReceiptPrinter.addOns.WinterHolidayHeader;
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
+import bestBuyReceiptPrinter.generator.Receipt;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -24,7 +25,7 @@ public class client {
 	private static Scanner scanner;
     public static void main(String[] args) {
 // 1. Creates a Data object (either from Java API or date entered by user)
-    	
+
         System.out.println("What is today's date?");
         scanner = new Scanner(System.in);
         System.out.println("Please enter in the month as a number (1 for January, etc)");
@@ -63,18 +64,18 @@ public class client {
         String itemNumber = "0";
         PurchasedItems items = new PurchasedItems();
 
-        BigDecimal itemOnePrice=new BigDecimal(3200.99);
-        BigDecimal itemTwoPrice=new BigDecimal(750.99);
-        BigDecimal itemThreePrice=new BigDecimal(59.99);
-        BigDecimal itemFourPrice=new BigDecimal(299.99);
-        BigDecimal itemFivePrice=new BigDecimal(19.99);
-        BigDecimal itemSixPrice=new BigDecimal(59.99);
-        itemOnePrice=itemOnePrice.setScale(2, RoundingMode.CEILING);
-        itemTwoPrice=itemTwoPrice.setScale(2, RoundingMode.CEILING);
-        itemThreePrice=itemThreePrice.setScale(2, RoundingMode.CEILING);
-        itemFourPrice=itemFourPrice.setScale(2, RoundingMode.CEILING);
-        itemFivePrice=itemFivePrice.setScale(2, RoundingMode.CEILING);
-        itemSixPrice=itemSixPrice.setScale(2, RoundingMode.CEILING);
+        BigDecimal itemOnePrice = new BigDecimal(3200.99);
+        BigDecimal itemTwoPrice = new BigDecimal(750.99);
+        BigDecimal itemThreePrice = new BigDecimal(59.99);
+        BigDecimal itemFourPrice = new BigDecimal(299.99);
+        BigDecimal itemFivePrice = new BigDecimal(19.99);
+        BigDecimal itemSixPrice = new BigDecimal(59.99);
+        itemOnePrice = itemOnePrice.setScale(2, RoundingMode.CEILING);
+        itemTwoPrice = itemTwoPrice.setScale(2, RoundingMode.CEILING);
+        itemThreePrice = itemThreePrice.setScale(2, RoundingMode.CEILING);
+        itemFourPrice = itemFourPrice.setScale(2, RoundingMode.CEILING);
+        itemFivePrice = itemFivePrice.setScale(2, RoundingMode.CEILING);
+        itemSixPrice = itemSixPrice.setScale(2, RoundingMode.CEILING);
 
         while (finished.equals("n")) {
             System.out.println("Please enter your order by indicating the item number");
@@ -98,8 +99,8 @@ public class client {
                 StoreItem item = new StoreItem("Sashendo Legend of Java", itemSixPrice);
                 items.addItem(item);
             } else if (itemNumber.equals("7")) {
-            	StoreItem item= new StoreItem("Sashendo The Nums", itemSixPrice);
-            	items.addItem(item);
+                StoreItem item = new StoreItem("Sashendo The Nums", itemSixPrice);
+                items.addItem(item);
             }
             System.out.println("Do you want to purchase something else? y/n");
             String purchaseAgain = "n";
@@ -108,30 +109,41 @@ public class client {
                 finished = "y";
             }
         }
+
+
+        BigDecimal qualifyingAmountOne = new BigDecimal(500.00);
+        BigDecimal qualifyingAmountTwo = new BigDecimal(1000.00);
+
+        LocalDate expirationDateOne = LocalDate.of(2021, 05, 21);
+        LocalDate expirationDateTwo = LocalDate.of(2020, 12, 14);
+
+
+        AddonList listOfAddons = new AddonList();
+        // 3. Constructs a ReceiptFactory object.
+        //3.a construct addons
+        //3.b pass Addons to ReceiptFactory
+        SecondaryHeader winterHeader = new WinterHolidayHeader();
+        SecondaryHeader halloweenHeader = new HalloweenHolidayHeader();
+        Rebate firstRebate = new RebateOne();
+        Rebate secondRebate = new RebateTwentyFive();
+        Coupon firstCoupon = new TenPercentCoupon("Video Games Coupon", expirationDateTwo, qualifyingAmountOne);
+        Coupon secondCoupon = new TwentyFivePercentCoupon("Laptop Coupon", expirationDateOne, qualifyingAmountTwo);
+
+        listOfAddons.addAddOn(winterHeader);
+        listOfAddons.addAddOn(halloweenHeader);
+        listOfAddons.addAddOn(firstRebate);
+        listOfAddons.addAddOn(secondRebate);
+        listOfAddons.addAddOn(firstCoupon);
+        listOfAddons.addAddOn(secondCoupon);
+
+        ReceiptFactory factory = new ReceiptFactory(listOfAddons);
+
+        Receipt newReceipt = factory.getReceipt(items, clientDate);
+
+        newReceipt = factory.getReceiptAddonIfApplies(newReceipt, items);
+
+        newReceipt.printReceipt();
     }
-    
-    
-   
-   BigDecimal qualifyingAmountOne=new BigDecimal(500.00);
-   BigDecimal qualifyingAmountTwo=new BigDecimal(1000.00);
-   
-   LocalDate expirationDateOne=LocalDate.of(2021, 05, 21);
-   LocalDate expiratationDateTwo=LocalDate.of(2020, 12, 14);
-   
-    
-    AddonList listOfAddons=new AddonList();
-    // 3. Constructs a ReceiptFactory object.
-    //3.a construct addons
-    //3.b pass Addons to ReceiptFactory
-    SecondaryHeader winterHeader=new WinterHolidayHeader();
-    SecondaryHeader halloweenHeader=new HalloweenHolidayHeader();
-    Rebate firstRebate=new RebateOne();
-    Rebate secondRebate=new RebateTwentyFive();
-    Coupon firstCoupon=new TenPercentCoupon("Video Games Coupon", expiratationDateTwo, qualifyingAmountOne);
-    Coupon secondCoupon=new TwentyFivePercentCoupon("Laptop Coupon", expirationDateOne, qualifyingAmountTwo);
-    
-    
-    
     
 }
     
