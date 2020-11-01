@@ -29,7 +29,7 @@ public class SCTaxComputation extends TaxComputationMethod {
             return 0;
         } else {
             PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
-
+            iterator.resetIter();
             while (iterator.hasNext()) {
                 iterator.next();
                 currentItem = iterator.getCurrentItem();

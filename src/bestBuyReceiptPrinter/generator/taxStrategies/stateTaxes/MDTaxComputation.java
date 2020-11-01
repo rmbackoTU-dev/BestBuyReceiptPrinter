@@ -29,7 +29,8 @@ public class MDTaxComputation extends TaxComputationMethod {
             return 0;
         } else {
             PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
-
+            iterator.resetIter();
+            currentItem=iterator.getCurrentItem();
             while (iterator.hasNext()) {
                 iterator.next();
                 currentItem = iterator.getCurrentItem();

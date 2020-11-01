@@ -1,5 +1,8 @@
 package bestBuyReceiptPrinter.generator;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
@@ -36,23 +39,28 @@ public class BasicReceipt implements Receipt {
         System.out.println(date.toString());
 
         PurchasedItems.PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
-        StoreItem currentItem;
+        iterator.resetIter();
+        StoreItem currentItem=iterator.getCurrentItem();
+        System.out.println(String.format("%9s %16s %n", currentItem.getDescription(), currentItem.getPrice()));
         while (iterator.hasNext()) {
             iterator.next();
             currentItem = iterator.getCurrentItem();
             System.out.println(String.format("%9s %16s %n", currentItem.getDescription(), currentItem.getPrice()));
         }
-        System.out.println(items.getTotalPrice().toString());
+        System.out.println("Sub-Total: "+items.getTotalPrice().toString());
         double totalDouble = items.getTotalPrice().doubleValue();
         double receiptTotal = totalDouble;
 
         if(tc!=null){
-            System.out.println(tc.computeTax(items, date));
+            System.out.println("Taxes: "+tc.computeTax(items, date));
             receiptTotal = totalDouble + tc.computeTax(items,date);
         }else{
             System.out.println("Tax: $0.00");
         }
-        System.out.println(receiptTotal);
+        BigDecimal receiptTotalBigDecimal=new BigDecimal(totalDouble);
+        receiptTotalBigDecimal=receiptTotalBigDecimal.setScale(2, RoundingMode.CEILING);
+        receiptTotal=receiptTotalBigDecimal.doubleValue();
+        System.out.println("Total "+receiptTotal);
     }
 }
 

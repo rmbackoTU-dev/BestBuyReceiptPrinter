@@ -81,30 +81,40 @@ public class client {
 
         scanner.nextLine();
 
+        
+        RebateOne firstRebate = new RebateOne();
+        RebateTwentyFive secondRebate = new RebateTwentyFive();
 
         while (finished.equals("n")) {
             System.out.println("Please enter your order by indicating the item number");
             itemNumber = scanner.nextLine();
             if (itemNumber.equals("1")) {
                 StoreItem item = new StoreItem("RyanCo. Gaming Laptop", itemOnePrice);
+                firstRebate.addToQualifyingPurchases(item);
                 items.addItem(item);
             } else if (itemNumber.equals("2")) {
                 StoreItem item = new StoreItem("RyanCo. Everyday Use Laptop", itemTwoPrice);
+                firstRebate.addToQualifyingPurchases(item);
                 items.addItem(item);
             } else if (itemNumber.equals("3")) {
                 StoreItem item = new StoreItem("Sashendo Stitch", itemThreePrice);
+                secondRebate.addToQualifyingPurchases(item);
                 items.addItem(item);
             } else if (itemNumber.equals("4")) {
                 StoreItem item = new StoreItem("Sashendo GamePro Mastered", itemFourPrice);
+                secondRebate.addToQualifyingPurchases(item);
                 items.addItem(item);
             } else if (itemNumber.equals("5")) {
                 StoreItem item = new StoreItem("RyanCo. All purpose charger", itemFivePrice);
+                secondRebate.addToQualifyingPurchases(item);
                 items.addItem(item);
             } else if (itemNumber.equals("6")) {
                 StoreItem item = new StoreItem("Sashendo Legend of Java", itemSixPrice);
+                secondRebate.addToQualifyingPurchases(item);
                 items.addItem(item);
             } else if (itemNumber.equals("7")) {
                 StoreItem item = new StoreItem("Sashendo The Nums", itemSixPrice);
+                secondRebate.addToQualifyingPurchases(item);
                 items.addItem(item);
             }
             System.out.println("Do you want to purchase something else? y/n");
@@ -114,8 +124,6 @@ public class client {
                 finished = "y";
 
             }
-            System.out.println(purchaseAgain);
-            System.out.println(finished);
         }
 
 
@@ -132,8 +140,6 @@ public class client {
         //3.b pass Addons to ReceiptFactory
         SecondaryHeader winterHeader = new WinterHolidayHeader();
         SecondaryHeader halloweenHeader = new HalloweenHolidayHeader();
-        Rebate firstRebate = new RebateOne();
-        Rebate secondRebate = new RebateTwentyFive();
         Coupon firstCoupon = new TenPercentCoupon("Video Games Coupon", expirationDateTwo, qualifyingAmountOne);
         Coupon secondCoupon = new TwentyFivePercentCoupon("Laptop Coupon", expirationDateOne, qualifyingAmountTwo);
 

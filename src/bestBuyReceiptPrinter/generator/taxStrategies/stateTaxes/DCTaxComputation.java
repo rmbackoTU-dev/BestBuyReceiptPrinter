@@ -27,7 +27,7 @@ public class DCTaxComputation extends TaxComputationMethod {
             return 0;
         } else {
             PurchasedItems.PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
-
+            iterator.resetIter();
             while (iterator.hasNext()) {
                 iterator.next();
                 currentItem = iterator.getCurrentItem();

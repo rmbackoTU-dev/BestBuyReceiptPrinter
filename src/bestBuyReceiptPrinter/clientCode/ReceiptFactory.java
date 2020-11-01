@@ -77,7 +77,6 @@ public class ReceiptFactory {
 			this.addons=addonsToAdd;
 			this.stateCode="";
 			this.taxComputationObject=new TaxComputationMethod[4];
-			this.addons=new AddonList();
 			Path configFilePath=Paths.get("clientCode/config_file.txt");
 			String[] lines=new String[5];//Config file should only ever be 5 lines
 			Path absoluteConfigFile=configFilePath.toAbsolutePath();
@@ -120,23 +119,23 @@ public class ReceiptFactory {
 				keyValue=line.split(":", 2);
 				String key=keyValue[0];
 				String value=keyValue[1];
-				if(key == "Street Address")
+				if(key.equals("Street Address"))
 				{
 					address=value;
 				}
-				else if(key == "Zip Code")
+				else if(key.equals("Zip Code"))
 				{
 					zipCode=value;
 				}
-				else if(key == "State Code")
+				else if(key.equals("State Code"))
 				{
 					this.stateCode=value;
 				}
-				else if(key == "Phone Number")
+				else if(key.equals("Phone Number"))
 				{
 					phoneNum=value;
 				}
-				else if(key == "Store Number")
+				else if(key.equals("Store Number"))
 				{
 					storeNum=value;
 				}
@@ -162,15 +161,15 @@ public class ReceiptFactory {
 			this.taxComputationObject[3]=null;
 			//The fourth tax object repersents a state where no sales tax is present
 			TaxComputationMethod taxStrat;
-			if(this.stateCode == "MD")
+			if(this.stateCode.equals("MD"))
 			{
 				taxStrat=taxComputationObject[1];
 			}
-			else if(this.stateCode == "SC")
+			else if(this.stateCode.equals("SC"))
 			{
 				taxStrat=taxComputationObject[2];
 			}
-			else if(this.stateCode == "DC")
+			else if(this.stateCode.contains("DC"))
 			{
 				taxStrat=taxComputationObject[0];
 			}
@@ -222,6 +221,7 @@ public class ReceiptFactory {
 							if(!(applicableAddonHasSecondaryHeader))
 							{
 								applicableAddons.addAddOn(currentAddon);
+								applicableAddonHasSecondaryHeader=true;
 							}
 						}
 						else

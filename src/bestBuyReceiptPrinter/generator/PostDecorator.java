@@ -18,6 +18,7 @@ public class PostDecorator extends ReceiptDecorator {
 	public PostDecorator(Receipt receipt, Addon addon)
 	{
 		super(receipt, addon);
+		addons=new AddonList();
 		addons.addAddOn(addon);
 	}
 	

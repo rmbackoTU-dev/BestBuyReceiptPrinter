@@ -90,6 +90,7 @@ public class TwentyFivePercentCoupon implements Coupon {
 		boolean applyAddon=false;
 //		Iterator<StoreItem> itemsIterator=items.getItemsIterator();
 		PurchasedItemsIterator itemsIterator=items.getPurchasedItemsIter();
+		itemsIterator.resetIter();
 		BigDecimal totalPrice=new BigDecimal(0);
 		totalPrice=totalPrice.setScale(2, RoundingMode.CEILING);
 		BigDecimal currentItemPrice;
