@@ -1,0 +1,5 @@
+Street Address:123 Main St.
+Zip Code:21111
+State Code:MD
+Phone Number:2222222222
+Store Number:412

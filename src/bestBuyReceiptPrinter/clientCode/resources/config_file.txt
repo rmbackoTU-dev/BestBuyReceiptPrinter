@@ -1,5 +1,0 @@
-Street Address:
-Zip Code:
-State Code:
-Phone Number:
-Store Number:

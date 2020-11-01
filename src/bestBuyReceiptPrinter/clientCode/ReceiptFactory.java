@@ -16,6 +16,8 @@ import bestBuyReceiptPrinter.generator.PreDecorator;
 import bestBuyReceiptPrinter.generator.Receipt;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
 import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
+
+import java.io.File;
 import java.util.Date;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,7 +38,6 @@ public class ReceiptFactory {
 		private TaxComputationMethod[] taxComputationObject;
 		private StoreHeader header;
 		private String stateCode;
-		private static BufferedReader input;
 
 		
 		
@@ -45,18 +46,21 @@ public class ReceiptFactory {
 			this.stateCode="";
 			this.taxComputationObject=new TaxComputationMethod[4];
 			this.addons=new AddonList();
-			Path configFilePath=Paths.get("/resources/config_file.txt");
+			File directory = new File("./");
+			System.out.println(directory.getAbsolutePath());
+			File configFile = new File("clientCode/config_file.txt");
 			String[] lines=new String[5];//Config file should only ever be 4 lines
-			Path absoluteConfigFile=configFilePath.toAbsolutePath();
+			Path absoluteConfigFile=configFile.getAbsoluteFile().toPath();
 			try
 			{
 				//Add everything to an array of lines and parse in a later function
 				BufferedReader reader=Files.newBufferedReader(absoluteConfigFile);
 				String line=null;
 				int i=0;
-				while(((line = input.readLine()) != null) && i < lines.length)
+				while(((line = reader.readLine()) != null) && i < lines.length)
 				{
 					lines[i]=line;
+					i++;
 				}
 				this.setHeader(lines);
 			}
@@ -74,8 +78,8 @@ public class ReceiptFactory {
 			this.stateCode="";
 			this.taxComputationObject=new TaxComputationMethod[4];
 			this.addons=new AddonList();
-			Path configFilePath=Paths.get("/resources/config_file.txt");
-			String[] lines=new String[5];//Config file should only ever be 4 lines
+			Path configFilePath=Paths.get("clientCode/config_file.txt");
+			String[] lines=new String[5];//Config file should only ever be 5 lines
 			Path absoluteConfigFile=configFilePath.toAbsolutePath();
 			try
 			{
@@ -83,9 +87,10 @@ public class ReceiptFactory {
 				BufferedReader reader=Files.newBufferedReader(absoluteConfigFile);
 				String line=null;
 				int i=0;
-				while(((line = input.readLine()) != null) && i < lines.length)
+				while(((line = reader.readLine()) != null) && i < lines.length)
 				{
 					lines[i]=line;
+					i++;
 				}
 				this.setHeader(lines);
 			}
@@ -175,6 +180,7 @@ public class ReceiptFactory {
 			}
 			BasicReceipt newReceipt=new BasicReceipt(itemsBought, today);
 			newReceipt.setTaxComputationMethod(taxStrat);
+			newReceipt.setStoreHeader(this.header);
 			return newReceipt;
 		}
 	

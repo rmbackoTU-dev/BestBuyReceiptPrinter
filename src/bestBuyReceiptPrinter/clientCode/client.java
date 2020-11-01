@@ -30,6 +30,7 @@ public class client {
         scanner = new Scanner(System.in);
         System.out.println("Please enter in the month as a number (1 for January, etc)");
         int month = scanner.nextInt();
+        scanner.nextLine();
         System.out.println("Please enter in today's day. Monday for example.");
         String day = scanner.nextLine();
         System.out.println("Please enter in today's date. If it's the first day of the month, please enter 1.");
@@ -38,6 +39,7 @@ public class client {
         int hour = scanner.nextInt();
         System.out.println("Please enter in the minute");
         int minute = scanner.nextInt();
+        scanner.nextLine();
         System.out.println("Is it " + hour + ":" + minute + " am? y/n");
         String amQuestion = scanner.nextLine();
         boolean isAm = true;
@@ -77,6 +79,9 @@ public class client {
         itemFivePrice = itemFivePrice.setScale(2, RoundingMode.CEILING);
         itemSixPrice = itemSixPrice.setScale(2, RoundingMode.CEILING);
 
+        scanner.nextLine();
+
+
         while (finished.equals("n")) {
             System.out.println("Please enter your order by indicating the item number");
             itemNumber = scanner.nextLine();
@@ -107,7 +112,10 @@ public class client {
             purchaseAgain = scanner.nextLine();
             if (purchaseAgain.equals("n")) {
                 finished = "y";
+
             }
+            System.out.println(purchaseAgain);
+            System.out.println(finished);
         }
 
 

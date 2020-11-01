@@ -43,9 +43,15 @@ public class BasicReceipt implements Receipt {
             System.out.println(String.format("%9s %16s %n", currentItem.getDescription(), currentItem.getPrice()));
         }
         System.out.println(items.getTotalPrice().toString());
-        System.out.println(tc.computeTax(items, date));
         double totalDouble = items.getTotalPrice().doubleValue();
-        double receiptTotal = totalDouble + tc.computeTax(items,date);
+        double receiptTotal = totalDouble;
+
+        if(tc!=null){
+            System.out.println(tc.computeTax(items, date));
+            receiptTotal = totalDouble + tc.computeTax(items,date);
+        }else{
+            System.out.println("Tax: $0.00");
+        }
         System.out.println(receiptTotal);
     }
 }
