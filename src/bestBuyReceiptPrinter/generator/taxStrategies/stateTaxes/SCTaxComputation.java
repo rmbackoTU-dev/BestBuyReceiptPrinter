@@ -1,23 +1,44 @@
 package bestBuyReceiptPrinter.generator.taxStrategies.stateTaxes;
 
-public class SCTaxComputation {
+import bestBuyReceiptPrinter.clientCode.data.StoreItem;
+import bestBuyReceiptPrinter.generator.ReceiptDate;
+import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+public class SCTaxComputation extends TaxComputationMethod {
     //South Carolina
 
-    public double computeTax(PurchasedItems items, ReceiptDate date) {
+    public double computeTax(PurchasedItems items, ReceiptDate date){
 // calls private method taxHoliday as part of this computation
 
+        BigDecimal taxSum = new BigDecimal(0);
+        taxSum = taxSum.setScale(0, RoundingMode.CEILING);
+        StoreItem currentItem;
         if (taxHoliday(date)) {
             return 0;
         } else {
-            return 0.06;
+            PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
 
-            //Going to be iterating through purchaseItems
+            while (iterator.hasNext()) {
+                iterator.next();
+                currentItem = iterator.getCurrentItem();
+                taxSum = taxSum.add(currentItem.getPrice());
+            }
+
         }
+        return taxSum.doubleValue();
+        //Going to be iterating through purchaseItems
     }
 
     public boolean taxHoliday(ReceiptDate date) {
     if(date.month==8){
-        if(date.date<)
+        if(day=="Friday"|| day=="Saturday"||day=="Sunday"){
+            if(date.date<9){
+                return true;
+            }
+        }
         return false;
     }
 }
