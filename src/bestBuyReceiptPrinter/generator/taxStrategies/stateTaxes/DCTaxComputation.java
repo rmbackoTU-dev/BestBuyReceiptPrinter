@@ -1,5 +1,4 @@
 package bestBuyReceiptPrinter.generator.taxStrategies.stateTaxes;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.*;
@@ -10,12 +9,11 @@ import bestBuyReceiptPrinter.generator.ReceiptDate;
 import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
 
-public class SCTaxComputation extends TaxComputationMethod {
-    //South Carolina
+public class DCTaxComputation extends TaxComputationMethod {
 
     double taxPercent = 0.06;
 
-    public SCTaxComputation(ReceiptDate date){
+    public DCTaxComputation(ReceiptDate date){
         super(date);
     }
 
@@ -25,10 +23,10 @@ public class SCTaxComputation extends TaxComputationMethod {
         BigDecimal taxSum = new BigDecimal(0);
         taxSum = taxSum.setScale(0, RoundingMode.CEILING);
         StoreItem currentItem;
-        if (taxHoliday()){
+        if (taxHoliday()) {
             return 0;
         } else {
-            PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
+            PurchasedItems.PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
 
             while (iterator.hasNext()) {
                 iterator.next();
@@ -37,28 +35,20 @@ public class SCTaxComputation extends TaxComputationMethod {
             }
 
         }
-        return taxSum.doubleValue();
+
+        return taxSum.doubleValue()*taxPercent;
         //Going to be iterating through purchaseItems
     }
 
-    public boolean taxHoliday() {
-        boolean isHoliday=false;
-        ReceiptDate date = super.newDate;
-        if (date.getMonth() == 8) {
-            if (date.getDayOfWeek().equals("Friday") && date.getDate() == 1) {
-                isHoliday=true;
-            }  else if (date.getDate() < 10 && (date.getDayOfWeek().equals("Friday") || date.getDayOfWeek().equals("Saturday") || date.getDayOfWeek().equals("Sunday"))) {
-                isHoliday=true;
-            }
 
-        }
+    /**
+     * Returns true if date is between
+     * August 9 and August 15
+     */
+    public boolean taxHoliday() {
+
+        boolean isHoliday = false;
         return isHoliday;
     }
 }
-
-
-// returns true if date of receipt within the state’s tax free holiday,
-// else returns false. Supporting method of method computeTax.
-
-// tax computation objects for other states are similar
 

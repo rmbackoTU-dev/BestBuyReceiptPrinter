@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class StoreItem {
-	
+
 	private String description;
 	private BigDecimal price;
 	private int inventoryNum;
@@ -80,5 +80,6 @@ public class StoreItem {
 	{
 		return this.price;
 	}
+
 
 }

@@ -13,12 +13,12 @@ public abstract class ReceiptDecorator implements Receipt {
 	public ReceiptDecorator()
 	{
 		//default date constructor gets time and date for now
-		Date date=new  Date();
+		ReceiptDate date=new  ReceiptDate();
 		currentReceipt=new BasicReceipt(null, date);
 	}
 	
 	
-	public ReceiptDecorator(PurchasedItems items, Date date)
+	public ReceiptDecorator(PurchasedItems items, ReceiptDate date)
 	{
 		currentReceipt=new BasicReceipt(items, date);
 		addOnList=new AddonList();
