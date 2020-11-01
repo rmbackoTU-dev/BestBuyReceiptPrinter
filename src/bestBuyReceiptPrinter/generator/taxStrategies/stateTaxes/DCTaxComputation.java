@@ -1,19 +1,16 @@
 package bestBuyReceiptPrinter.generator.taxStrategies.stateTaxes;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.*;
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
-import bestBuyReceiptPrinter.clientCode.data.PurchasedItems.PurchasedItemsIterator;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
 import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
-import bestBuyReceiptPrinter.generator.ReceiptDate;
 
-public class MDTaxComputation extends TaxComputationMethod {
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+public class DCTaxComputation extends TaxComputationMethod {
 
     double taxPercent = 0.06;
-
 
     public double computeTax(PurchasedItems items, ReceiptDate date) {
 // calls private method taxHoliday as part of this computation
@@ -33,6 +30,7 @@ public class MDTaxComputation extends TaxComputationMethod {
             }
 
         }
+
         return taxSum.doubleValue()*taxPercent;
         //Going to be iterating through purchaseItems
     }
@@ -48,3 +46,4 @@ public class MDTaxComputation extends TaxComputationMethod {
         return isHoliday;
     }
 }
+

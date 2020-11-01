@@ -1,5 +1,5 @@
 package bestBuyReceiptPrinter.generator.taxStrategies.stateTaxes;
-
+import java.lang.*;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
 import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
@@ -9,6 +9,8 @@ import java.math.RoundingMode;
 
 public class SCTaxComputation extends TaxComputationMethod {
     //South Carolina
+
+    double taxPercent = 0.06;
 
     public double computeTax(PurchasedItems items, ReceiptDate date){
 // calls private method taxHoliday as part of this computation
@@ -33,11 +35,16 @@ public class SCTaxComputation extends TaxComputationMethod {
     }
 
     public boolean taxHoliday(ReceiptDate date) {
-    if(date.month==8){
-        if(date.day=="Friday"|| date.day=="Saturday"||date.day=="Sunday"){
-            if(date.date<9 && date.date!=1){
+    if(date.getMonth()==8){
+        if(date.getDayOfWeek().equals("Friday")&& date.getDate()==1){
                 return true;
             }
+        else if(date.getDate()==1 && (date.getDayOfWeek().equals("Saturday") || date.getDayOfWeek().equals("Sunday")))
+        {
+            return false;
+        }
+        else if(date.getDate()<9 && (date.getDayOfWeek().equals("Friday") || date.getDayOfWeek().equals("Saturday") || date.getDayOfWeek().equals("Sunday"))){
+            return true;
         }
         return false;
     }
