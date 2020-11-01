@@ -2,25 +2,31 @@ package bestBuyReceiptPrinter.clientCode;
 
 import bestBuyReceiptPrinter.addOns.Addon;
 import bestBuyReceiptPrinter.addOns.AddonList;
+import bestBuyReceiptPrinter.addOns.Coupon;
+import bestBuyReceiptPrinter.addOns.HalloweenHolidayHeader;
+import bestBuyReceiptPrinter.addOns.Rebate;
 import bestBuyReceiptPrinter.addOns.RebateOne;
 import bestBuyReceiptPrinter.addOns.RebateTwentyFive;
+import bestBuyReceiptPrinter.addOns.SecondaryHeader;
 import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
 import bestBuyReceiptPrinter.addOns.TwentyFivePercentCoupon;
 import bestBuyReceiptPrinter.addOns.WinterHolidayHeader;
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.Scanner;
 
 public class client {
 
+	private static Scanner scanner;
     public static void main(String[] args) {
 // 1. Creates a Data object (either from Java API or date entered by user)
+    	
         System.out.println("What is today's date?");
-        Scanner scanner = new Scanner(System.in);
+        scanner = new Scanner(System.in);
         System.out.println("Please enter in the month as a number (1 for January, etc)");
         int month = scanner.nextInt();
         System.out.println("Please enter in today's day. Monday for example.");
@@ -93,6 +99,7 @@ public class client {
                 items.addItem(item);
             } else if (itemNumber.equals("7")) {
             	StoreItem item= new StoreItem("Sashendo The Nums", itemSixPrice);
+            	items.addItem(item);
             }
             System.out.println("Do you want to purchase something else? y/n");
             String purchaseAgain = "n";
@@ -103,44 +110,28 @@ public class client {
         }
     }
     
+    
+   
+   BigDecimal qualifyingAmountOne=new BigDecimal(500.00);
+   BigDecimal qualifyingAmountTwo=new BigDecimal(1000.00);
+   
+   LocalDate expirationDateOne=LocalDate.of(2021, 05, 21);
+   LocalDate expiratationDateTwo=LocalDate.of(2020, 12, 14);
+   
+    
+    AddonList listOfAddons=new AddonList();
     // 3. Constructs a ReceiptFactory object.
     //3.a construct addons
     //3.b pass Addons to ReceiptFactory
-    Addon winterHeader=new WinterHolidayHeader();
-    Addon firstRebate=new RebateOne();
-    Addon secondRebate=new RebateTwentyFive();
-    Addon firstCoupon=new TenPercentCoupon();
-    Addon secondCoupon=new TwentyFivePercentCoupon();
+    SecondaryHeader winterHeader=new WinterHolidayHeader();
+    SecondaryHeader halloweenHeader=new HalloweenHolidayHeader();
+    Rebate firstRebate=new RebateOne();
+    Rebate secondRebate=new RebateTwentyFive();
+    Coupon firstCoupon=new TenPercentCoupon("Video Games Coupon", expiratationDateTwo, qualifyingAmountOne);
+    Coupon secondCoupon=new TwentyFivePercentCoupon("Laptop Coupon", expirationDateOne, qualifyingAmountTwo);
     
-    //Above needs correct parameters passed to them to work.
-    //for example a list of all the items which a coupon is given needs to be added to each coupon
     
-    AddonList listOfAddons=new AddonList();
-    
-    //Then use addAddon to add the addon to the list of addons once they are done
-    
-    //finally call the factory with the list of Addons and use getReceipt to get a basic receipt
-    //pass the receipt to getReceiptAddonIfApplies to get a Receipt with all of the necessary addons.
     
     
 }
-
-
-
-// 3. Constructs a ReceiptFactory object.
-
-
-// 3. Prompts user for items to purchase, storing each in PurchasedItems.
-// 4. Calls the getReceipt method of the factory to obtain constructed receipt.
-// 5. Prints receipt by call to method prtReceipt.
-// get receipt date
-// (prompt user for current date)
-// display all available store items to user
-//                (to be implemented)
-//// get all user selections
-//                (to be implemented)
-//                ReceiptFactory factory = new ReceiptFactory();
-//                Receipt = factory.getReceipt(items, date);
-//                receipt.prtReceipt();
-//            }
-//        }
+    
