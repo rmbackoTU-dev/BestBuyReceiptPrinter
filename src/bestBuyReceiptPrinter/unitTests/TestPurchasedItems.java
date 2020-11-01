@@ -35,15 +35,13 @@ public class TestPurchasedItems {
 	{
 		BigDecimal price=new BigDecimal(10.99);
 		price=price.setScale(2, RoundingMode.CEILING);
-		StoreItem newItemOne= new StoreItem("itemOne", price ,-1);
+		StoreItem newItemOne= new StoreItem("itemOne", price);
 		this.testItems.addItem(newItemOne);
 		PurchasedItemsIterator itemsIter=this.testItems.getPurchasedItemsIter();
 		String expectedDescription="itemOne";
-		int expectedRebateId=-1;
 		double expectedPriceDouble=price.doubleValue();
 		StoreItem actualItem=itemsIter.getCurrentItem();
 		Assertions.assertEquals(expectedDescription+" : 1", actualItem.getDescription());
-		Assertions.assertEquals(expectedRebateId, actualItem.getRebateId());
 		Assertions.assertEquals(expectedPriceDouble, actualItem.getPrice().doubleValue());
 		newItemOne.finalize();
 	}
@@ -68,8 +66,8 @@ public class TestPurchasedItems {
 		String expectedDescription="itemOne";
 		String expectedDescriptionTwo="itemTwo";
 		int expectedRebateId=-1;
-		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
-		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		StoreItem newItemOne= new StoreItem(expectedDescription, price);
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price);
 		this.testItems.addItem(newItemOne);
 		this.testItems.addItem(newItemTwo);
 		PurchasedItemsIterator itemsIter=this.testItems.getPurchasedItemsIter();
@@ -87,9 +85,8 @@ public class TestPurchasedItems {
 		price=price.setScale(2, RoundingMode.CEILING);
 		String expectedDescription="itemOne";
 		String expectedDescriptionTwo="itemTwo";
-		int expectedRebateId=-1;
-		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
-		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		StoreItem newItemOne= new StoreItem(expectedDescription, price);
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price);
 		this.testItems.addItem(newItemOne);
 		this.testItems.addItem(newItemTwo);
 		PurchasedItemsIterator itemsIter=this.testItems.getPurchasedItemsIter();
@@ -104,8 +101,7 @@ public class TestPurchasedItems {
 		BigDecimal price=new BigDecimal(10.99);
 		price=price.setScale(2, RoundingMode.CEILING);
 		String expectedDescription="itemOne";
-		int expectedRebateId=-1;
-		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
+		StoreItem newItemOne= new StoreItem(expectedDescription, price);
 		this.testItems.addItem(newItemOne);
 		PurchasedItemsIterator itemsIter=this.testItems.getPurchasedItemsIter();
 		Assertions.assertFalse(itemsIter.hasNext());
@@ -120,9 +116,8 @@ public class TestPurchasedItems {
 		price=price.setScale(2, RoundingMode.CEILING);
 		String expectedDescription="itemOne";
 		String expectedDescriptionTwo="itemTwo";
-		int expectedRebateId=-1;
-		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
-		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		StoreItem newItemOne= new StoreItem(expectedDescription, price);
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price);
 		this.testItems.addItem(newItemOne);
 		this.testItems.addItem(newItemTwo);
 		PurchasedItemsIterator itemsIter=this.testItems.getPurchasedItemsIter();
@@ -143,9 +138,8 @@ public class TestPurchasedItems {
 		price=price.setScale(2, RoundingMode.CEILING);
 		String expectedDescription="itemOne";
 		String expectedDescriptionTwo="itemTwo";
-		int expectedRebateId=-1;
-		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
-		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		StoreItem newItemOne= new StoreItem(expectedDescription, price );
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price);
 		this.testItems.addItem(newItemOne);
 		this.testItems.addItem(newItemTwo);
 		BigDecimal expectedPriceDouble=price.add(price);
@@ -164,9 +158,8 @@ public class TestPurchasedItems {
 		price=price.setScale(2, RoundingMode.CEILING);
 		String expectedDescription="itemOne";
 		String expectedDescriptionTwo="itemTwo";
-		int expectedRebateId=-1;
-		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
-		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		StoreItem newItemOne= new StoreItem(expectedDescription, price);
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price);
 		this.testItems.addItem(newItemOne);
 		this.testItems.addItem(newItemTwo);
 		Assertions.assertTrue(this.testItems.containsItem(2));
@@ -181,9 +174,8 @@ public class TestPurchasedItems {
 		price=price.setScale(2, RoundingMode.CEILING);
 		String expectedDescription="itemOne";
 		String expectedDescriptionTwo="itemTwo";
-		int expectedRebateId=-1;
-		StoreItem newItemOne= new StoreItem(expectedDescription, price , expectedRebateId);
-		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price , expectedRebateId);
+		StoreItem newItemOne= new StoreItem(expectedDescription, price );
+		StoreItem newItemTwo= new StoreItem(expectedDescriptionTwo, price );
 		this.testItems.addItem(newItemOne);
 		this.testItems.addItem(newItemTwo);
 		Assertions.assertFalse(this.testItems.containsItem(3));

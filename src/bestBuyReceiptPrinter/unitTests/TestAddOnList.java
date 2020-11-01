@@ -13,7 +13,8 @@ import bestBuyReceiptPrinter.addOns.AddonList;
 import bestBuyReceiptPrinter.addOns.AddonList.AddOnsIterator;
 import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
 import bestBuyReceiptPrinter.addOns.RebateOne;
-import bestBuyReceiptPrinter.addOns.HolidayHeader;
+import bestBuyReceiptPrinter.addOns.WinterHolidayHeader;
+import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.addOns.Addon;
 
 public class TestAddOnList {
@@ -76,7 +77,7 @@ public class TestAddOnList {
 		this.testAddonList.addAddOn(testAddon);
 		AddOnsIterator listIterator=this.testAddonList.getIterator();
 		TenPercentCoupon actualItem=(TenPercentCoupon) listIterator.getCurrentItem();
-		int expectedPercentageOff=0;
+		int expectedPercentageOff=10;
 		String expectedDescription="";
 		this.setUpExpectedExpirationDates();
 		String actualGetLines=actualItem.getLines();
@@ -95,7 +96,7 @@ public class TestAddOnList {
 	{
 		Addon testAddonOne=new TenPercentCoupon();
 		Addon testAddonTwo=new RebateOne();
-		Addon testAddonThree=new HolidayHeader();
+		Addon testAddonThree=new WinterHolidayHeader();
 		this.testAddonList.addAddOn(testAddonOne);
 		this.testAddonList.addAddOn(testAddonTwo);
 		this.testAddonList.addAddOn(testAddonThree);
@@ -108,7 +109,7 @@ public class TestAddOnList {
 		{
 			currentItem=listIterator.getCurrentItem();
 			String expectedDescription="";
-			int expectedPercentageOff=0;
+			int expectedPercentageOff=10;
 			this.setUpExpectedExpirationDates();
 			expectedItemGetLines=expectedDescription+" COUPON:"+expectedPercentageOff+
 					" off next purchase.\n "+"Good until "+this.newExpiration.toString();
@@ -120,20 +121,19 @@ public class TestAddOnList {
 				{
 					listIterator.next();
 					currentItem=listIterator.getCurrentItem();
-					BigDecimal expectedRebateAmount=new BigDecimal(0);
+					BigDecimal expectedRebateAmount=new BigDecimal(1);
 					expectedRebateAmount=expectedRebateAmount.setScale(2, RoundingMode.CEILING);
 					int expectedRebateId=1;
 					expectedItemGetLines="$"+expectedRebateAmount.toString()+" REBATE (#"+expectedRebateId+")";
 					actualItemGetLines=currentItem.getLines();
 					Assertions.assertEquals(expectedItemGetLines, actualItemGetLines);
 					RebateOne castToRebate=(RebateOne) currentItem;
-					castToRebate.finalize();
 				}
 				else
 				{
 					listIterator.next();
 					currentItem=listIterator.getCurrentItem();
-					expectedItemGetLines="";
+					expectedItemGetLines="Happy Holidays";
 					actualItemGetLines=currentItem.getLines();
 					Assertions.assertEquals(expectedItemGetLines, actualItemGetLines);
 				}
@@ -219,45 +219,31 @@ public class TestAddOnList {
 	@Test
 	public void testAddonIteratorGetNext()
 	{
-		Addon newItem=new RebateOne();
-		Addon newItemTwo=new RebateOne();
-		this.testAddonList.addAddOn(newItem);
-		this.testAddonList.addAddOn(newItemTwo);
+		Addon newRebate=new RebateOne();
+		RebateOne newRebateTwo=new RebateOne();
+		BigDecimal xboxControllerPrice=new BigDecimal(20.99);
+		xboxControllerPrice=xboxControllerPrice.setScale(2, RoundingMode.CEILING);
+		StoreItem newItemOne=new StoreItem("Xbox 360 Controller", xboxControllerPrice);
+		newRebateTwo.addToQualifyingPurchases(newItemOne);
+		this.testAddonList.addAddOn(newRebate);
+		this.testAddonList.addAddOn(newRebateTwo);
 	    AddOnsIterator listIter=testAddonList.getIterator();
 	    listIter.next();
 	    try
 	    {
 	    	RebateOne expectedItem=(RebateOne) listIter.getCurrentItem();
-	    	int rebateId=expectedItem.getRebateId();
-	    	Assertions.assertTrue(rebateId == 2);
-	    	expectedItem.finalize();
-	    	System.out.println("COUNTER: "+RebateOne.getCounter());
+	    	String expectedLines="$1.00 REBATE (#1)";
+	    	Assertions.assertEquals(expectedLines, expectedItem.getLines());
 	    	//finalize the remaining item
-	    	expectedItem=(RebateOne) newItem;
-	    	expectedItem.finalize();
-	    	System.out.println("COUNTER: "+RebateOne.getCounter());
 	    }
 	    catch(IllegalStateException e)
 	    {
-	    	RebateOne newItemDeconstruct=(RebateOne) newItem;
-	    	RebateOne newItemTwoDeconstruct=(RebateOne) newItemTwo;
-	    	newItemDeconstruct.finalize();
-	    	System.out.println("COUNTER: "+RebateOne.getCounter());
-	    	newItemTwoDeconstruct.finalize();
-	    	System.out.println("COUNTER: "+RebateOne.getCounter());
+	    	e.printStackTrace();
 	    	Assertions.fail("Illegal state was reached in addon list.");
 	    }
 	 
 	}
 	
-//	@Test
-//	public void testRebateCounter()
-//	{
-//		Rebate newRebate=new Rebate();
-//		System.out.println("COUNTER 1: "+Rebate.getCounter());
-//		newRebate.finalize();
-//		System.out.println("COUNTER 2: "+Rebate.getCounter());
-//	}
 	
 	@Test
 	public void testAddonIteratorGetNextNoNext()
@@ -271,9 +257,5 @@ public class TestAddOnList {
 	    	});
 	    RebateOne castToRebateOne=(RebateOne) newItem;
 	    RebateOne castToRebateTwo=(RebateOne) newItemTwo;
-	    castToRebateOne.finalize();
-	    System.out.println("COUNTER: "+RebateOne.getCounter());
-	    castToRebateTwo.finalize();
-	    System.out.println("COUNTER: "+RebateOne.getCounter());
 	 }
 }
