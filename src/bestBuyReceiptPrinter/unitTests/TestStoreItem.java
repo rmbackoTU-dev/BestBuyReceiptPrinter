@@ -18,12 +18,10 @@ public class TestStoreItem {
 	public void testStoreItemDefaultConstructor()
 	{
 		StoreItem newStoreItem=new StoreItem();
-		int actualRebateId=newStoreItem.getRebateId();
 		BigDecimal actualPrice=newStoreItem.getPrice();
 		double actualPriceDouble=actualPrice.doubleValue();
 		String actualDescript=newStoreItem.getDescription();
 		int actualInventoryNum=newStoreItem.getInventoryNum();
-		Assertions.assertEquals(-1, actualRebateId);
 		Assertions.assertEquals(0.00, actualPriceDouble);
 	    Assertions.assertEquals("A new Item : 1", actualDescript);
 	    Assertions.assertEquals(1, actualInventoryNum);
@@ -33,20 +31,17 @@ public class TestStoreItem {
 	@Test
 	public void testStoreItemParameterConstructor()
 	{
-		int expectedRebateId=1;
 		BigDecimal expectedPrice=new BigDecimal(1899.98);
 		expectedPrice=expectedPrice.setScale(2, RoundingMode.CEILING);
 		double expectedPriceDouble=expectedPrice.doubleValue();
 		String expectedDescription="Dell XPS 15";
 		int expectedInventoryNum=1;
 		StoreItem newStoreItem=new StoreItem(expectedDescription,
-				expectedPrice, expectedRebateId);
-		int actualRebateId=newStoreItem.getRebateId();
+				expectedPrice);
 		BigDecimal actualPrice=newStoreItem.getPrice();
 		double actualPriceDouble=actualPrice.doubleValue();
 		String actualDescript=newStoreItem.getDescription();
 		int actualInventoryNum=newStoreItem.getInventoryNum();
-	    Assertions.assertEquals(expectedRebateId, actualRebateId);
 		Assertions.assertEquals(expectedPriceDouble, actualPriceDouble);
 	    Assertions.assertEquals(expectedDescription+" : 1", actualDescript);
 	    Assertions.assertEquals(expectedInventoryNum, actualInventoryNum);
@@ -67,36 +62,7 @@ public class TestStoreItem {
 		Assertions.assertEquals(0, StoreItem.getItemCount());
 	}
 	
-	@Test
-	public void testHasRebateTrue()
-	{
-	    int expectedRebateId=1;
-		BigDecimal expectedPrice=new BigDecimal(1899.98);
-		expectedPrice=expectedPrice.setScale(2, RoundingMode.CEILING);
-		double expectedPriceDouble=expectedPrice.doubleValue();
-		String expectedDescription="Dell XPS 15";
-		int expectedInventoryNum=1;
-		StoreItem newStoreItem=new StoreItem(expectedDescription,
-				expectedPrice, expectedRebateId);
-		Assertions.assertTrue(newStoreItem.hasRebate());
-		newStoreItem.finalize();
-	}
 	
-	@Test
-	public void testHasRebateFalse()
-	{
-		int expectedRebateId=-1;
-		BigDecimal expectedPrice=new BigDecimal(1899.98);
-		expectedPrice=expectedPrice.setScale(2, RoundingMode.CEILING);
-		double expectedPriceDouble=expectedPrice.doubleValue();
-		String expectedDescription="Dell XPS 15";
-		int expectedInventoryNum=1;
-		StoreItem newStoreItem=new StoreItem(expectedDescription,
-				expectedPrice, expectedRebateId);
-		Assertions.assertFalse(newStoreItem.hasRebate());
-		newStoreItem.finalize();
-
-	}
 	
 	
 }

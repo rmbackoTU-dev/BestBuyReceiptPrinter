@@ -145,7 +145,7 @@ public class TestTenPercentCoupon {
 	{
 	   BigDecimal itemOnePrice=new BigDecimal(499.99);
 	   itemOnePrice=itemOnePrice.setScale(2, RoundingMode.CEILING);
-	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice, -1);
+	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice);
 	   String expectedDescription="Xbox Series X";
 	   PurchasedItems allItems=new PurchasedItems();
 	   allItems.addItem(itemOne);
@@ -163,8 +163,8 @@ public class TestTenPercentCoupon {
 	  String couponDescript="Game Consoles";
 	   BigDecimal itemOnePrice=new BigDecimal(499.99);
 	   BigDecimal itemTwoPrice=new BigDecimal(299.99);
-	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice, -1);
-	   StoreItem itemTwo=new StoreItem("Xbox Series S", itemTwoPrice, -1);
+	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice);
+	   StoreItem itemTwo=new StoreItem("Xbox Series S", itemTwoPrice);
 	   PurchasedItems allItems=new PurchasedItems();
 	   allItems.addItem(itemOne);
 	   allItems.addItem(itemTwo);
@@ -183,9 +183,9 @@ public class TestTenPercentCoupon {
 	   BigDecimal itemOnePrice=new BigDecimal(499.99);
 	   BigDecimal itemTwoPrice=new BigDecimal(299.99);
 	   BigDecimal itemThreePrice=itemTwoPrice;
-	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice, -1);
-	   StoreItem itemTwo=new StoreItem("Xbox Series S", itemTwoPrice, -1);
-	   StoreItem itemThree=new StoreItem("Xbox One S", itemThreePrice, -1);
+	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice);
+	   StoreItem itemTwo=new StoreItem("Xbox Series S", itemTwoPrice);
+	   StoreItem itemThree=new StoreItem("Xbox One S", itemThreePrice);
 	   PurchasedItems allItems=new PurchasedItems();
 	   allItems.addItem(itemOne);
 	   allItems.addItem(itemTwo);
@@ -204,9 +204,9 @@ public class TestTenPercentCoupon {
 	   BigDecimal itemOnePrice=new BigDecimal(499.99);
 	   BigDecimal itemTwoPrice=new BigDecimal(299.99);
 	   BigDecimal itemThreePrice=itemTwoPrice;
-	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice, -1);
-	   StoreItem itemTwo=new StoreItem("Xbox Series S", itemTwoPrice, -1);
-	   StoreItem itemThree=new StoreItem("Xbox One S", itemThreePrice, -1);
+	   StoreItem itemOne=new StoreItem("Xbox Series X", itemOnePrice);
+	   StoreItem itemTwo=new StoreItem("Xbox Series S", itemTwoPrice);
+	   StoreItem itemThree=new StoreItem("Xbox One S", itemThreePrice);
 	   PurchasedItems allItems=new PurchasedItems();
 	   allItems.addItem(itemOne);
 	   allItems.addItem(itemTwo);

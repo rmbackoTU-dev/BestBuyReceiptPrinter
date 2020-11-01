@@ -16,7 +16,6 @@ public class StoreItem {
 	private String description;
 	private BigDecimal price;
 	private int inventoryNum;
-	private int rebateID;
 	public static int currentInventoryCount=0;
 	
 	/**
@@ -29,21 +28,18 @@ public class StoreItem {
 		this.price=new BigDecimal(0);
 		this.price=this.price.setScale(2, RoundingMode.CEILING);
 		this.description="A new Item : "+this.inventoryNum;
-		//A negative 1 rebate means that no rebate is applied
-		this.rebateID=-1;
 	}
 	
 	/**
 	 * Parameter Constructor
 	 */
-	public StoreItem(String descript,  BigDecimal itemPrice, int rebateID)
+	public StoreItem(String descript,  BigDecimal itemPrice)
 	{
 		currentInventoryCount=currentInventoryCount+1;
 		this.inventoryNum=currentInventoryCount;
 		this.price=itemPrice;
 		this.price=this.price.setScale(2, RoundingMode.CEILING);
 		this.description=descript+" : "+this.inventoryNum;
-		this.rebateID=rebateID;
 	}
 	
 	
@@ -68,10 +64,6 @@ public class StoreItem {
 		return currentInventoryCount;
 	}
 	
-	public boolean hasRebate()
-	{
-		return (this.rebateID != -1);
-	}
 	
 	public int getInventoryNum()
 	{
@@ -87,11 +79,6 @@ public class StoreItem {
 	public BigDecimal getPrice()
 	{
 		return this.price;
-	}
-
-	public int getRebateId() 
-	{	
-		return this.rebateID;
 	}
 
 }

@@ -14,103 +14,70 @@ public class TestRebateOne {
 	public void testRebateConstruct()
 	{
 		RebateOne newRebate=new RebateOne();
-		RebateOne newRebateTwo=new RebateOne();
-		BigDecimal defaultRebateAmount=new BigDecimal(0);
+		BigDecimal defaultRebateAmount=new BigDecimal(1);
 		defaultRebateAmount=defaultRebateAmount.setScale(2, RoundingMode.CEILING);
 		BigDecimal actualDefaultRebateAmount=newRebate.getAmountOff();
 		double expectedRebateAmountAsDouble=defaultRebateAmount.doubleValue();
 		double actualRebateAmountAsDouble=actualDefaultRebateAmount.doubleValue();		
-		int actualRebateId=newRebate.getRebateId();
-		int actualRebateIdTwo=newRebateTwo.getRebateId();
 		Assertions.assertEquals(expectedRebateAmountAsDouble, 
 				actualRebateAmountAsDouble);
-		Assertions.assertTrue((actualRebateIdTwo == (actualRebateId + 1 )));
 	}
 
-	@Test
-	public void testRebateParamConstruct()
-	{
-		BigDecimal rebateAmountParam=new BigDecimal(10.99);
-		rebateAmountParam=rebateAmountParam.setScale(2, RoundingMode.CEILING);
-		RebateOne newRebate=new RebateOne(rebateAmountParam);
-		RebateOne newRebateTwo=new RebateOne(rebateAmountParam);
-		double expectedRebateAmountAsDouble=rebateAmountParam.doubleValue();
-		BigDecimal actualRebateAmount=newRebate.getAmountOff();
-		double actualRebateAmountAsDouble=rebateAmountParam.doubleValue();
-		int actualRebateId=newRebate.getRebateId();
-		int actualRebateIdTwo=newRebateTwo.getRebateId();
-		Assertions.assertEquals(expectedRebateAmountAsDouble, actualRebateAmountAsDouble);
-		Assertions.assertTrue((actualRebateIdTwo == (actualRebateId +1)));
-	}
-	
-	@Test
-	public void testRebateSetter()
-	{
-		RebateOne newRebate=new RebateOne();
-BigDecimal setRebate=new BigDecimal(20.99);
-		setRebate.setScale(2, RoundingMode.CEILING);
-		newRebate.setAmountOff(setRebate);
-		BigDecimal actualRebate=newRebate.getAmountOff();
-		double actualRebateAsDouble=actualRebate.doubleValue();
-		double expectedRebateAsDouble=setRebate.doubleValue();
-		Assertions.assertEquals(expectedRebateAsDouble, actualRebateAsDouble);
-		
-	}
 	
 	@Test
 	public void testRebateGetters()
 	{
-		BigDecimal setRebate=new BigDecimal(20.99);
-		setRebate.setScale(2, RoundingMode.CEILING);
-		RebateOne newRebate= new RebateOne(setRebate);
+		BigDecimal expectedRebate=new BigDecimal(1);
+		expectedRebate=expectedRebate.setScale(2, RoundingMode.CEILING);
+		RebateOne newRebate= new RebateOne();
 		BigDecimal actualRebate=newRebate.getAmountOff();
 		double actualRebateAsDouble=actualRebate.doubleValue();
-		double expectedRebateAsDouble=setRebate.doubleValue();
+		double expectedRebateAsDouble=expectedRebate.doubleValue();
 		Assertions.assertEquals(expectedRebateAsDouble, actualRebateAsDouble);
 	}
 	
 	@Test
 	public void testRebateAppliesOneItem()
 	{
-		BigDecimal setRebate=new BigDecimal(20.99);
-		setRebate.setScale(2, RoundingMode.CEILING);
-		RebateOne newRebate= new RebateOne(setRebate);
+		RebateOne newRebate= new RebateOne();
 		String storeItemDecription="Dell XPS 15";
 		BigDecimal itemPrice=new BigDecimal(1899.00);
 		itemPrice=itemPrice.setScale(2, RoundingMode.CEILING);
-		StoreItem newItem=new StoreItem(storeItemDecription, itemPrice, newRebate.getRebateId());
+		StoreItem newItem=new StoreItem(storeItemDecription, itemPrice);
+		newRebate.addToQualifyingPurchases(newItem);
 		PurchasedItems newPurchaseList=new PurchasedItems();
 		newPurchaseList.addItem(newItem);
 		Assertions.assertTrue(newRebate.applies(newPurchaseList));
+		newItem.finalize();
 		
 	}
 	
 	@Test
 	public void testRebateAppliesSecondItems()
 	{
-		BigDecimal setRebate=new BigDecimal(20.99);
-		setRebate.setScale(2, RoundingMode.CEILING);
-		RebateOne newRebate= new RebateOne(setRebate);
+		RebateOne newRebate= new RebateOne();
 		String storeItemDescription="MSI Prestige 15";
 		BigDecimal itemPrice=new BigDecimal(1799.00);
 		String storeItemDescriptionTwo="Dell XPS 15";
 		BigDecimal itemPriceTwo=new BigDecimal(1899.00);
 		itemPrice=itemPrice.setScale(2, RoundingMode.CEILING);
 		itemPriceTwo=itemPriceTwo.setScale(2, RoundingMode.CEILING);
-		StoreItem newItem=new StoreItem(storeItemDescription, itemPrice, -1);
-		StoreItem newItemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo, newRebate.getRebateId());
+		StoreItem newItem=new StoreItem(storeItemDescription, itemPrice );
+		StoreItem newItemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo);
+		newRebate.addToQualifyingPurchases(newItem);
+		newRebate.addToQualifyingPurchases(newItemTwo);
 		PurchasedItems newPurchaseList=new PurchasedItems();
 		newPurchaseList.addItem(newItem);
 		newPurchaseList.addItem(newItemTwo);
 		Assertions.assertTrue(newRebate.applies(newPurchaseList));
+		newItem.finalize();
+		newItemTwo.finalize();
 	}
 	
 	@Test
 	public void testRebateAppliesThirdItems()
 	{
-		BigDecimal setRebate=new BigDecimal(20.99);
-		setRebate.setScale(2, RoundingMode.CEILING);
-		RebateOne newRebate= new RebateOne(setRebate);
+		RebateOne newRebate= new RebateOne();
 		String storeItemDescription="MSI Prestige 15";
 		BigDecimal itemPrice=new BigDecimal(1799.00);
 		String storeItemDescriptionTwo="Dell XPS 15";
@@ -120,23 +87,27 @@ BigDecimal setRebate=new BigDecimal(20.99);
 		itemPrice=itemPrice.setScale(2, RoundingMode.CEILING);
 		itemPriceTwo=itemPriceTwo.setScale(2, RoundingMode.CEILING);
 		itemPriceThree=itemPriceThree.setScale(2, RoundingMode.CEILING);
-		StoreItem newItem=new StoreItem(storeItemDescription, itemPrice, -1);
-		StoreItem newItemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo, -1);
-		StoreItem newItemThree=new StoreItem(storeItemDescriptionThree, itemPriceThree, newRebate.getRebateId());
+		StoreItem newItem=new StoreItem(storeItemDescription, itemPrice);
+		StoreItem newItemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo);
+		StoreItem newItemThree=new StoreItem(storeItemDescriptionThree, itemPriceThree);
+		newRebate.addToQualifyingPurchases(newItem);
+		newRebate.addToQualifyingPurchases(newItemTwo);
+		newRebate.addToQualifyingPurchases(newItemThree);
 		PurchasedItems newPurchaseList=new PurchasedItems();
 		newPurchaseList.addItem(newItem);
 		newPurchaseList.addItem(newItemTwo);
 		newPurchaseList.addItem(newItemThree);
 		Assertions.assertTrue(newRebate.applies(newPurchaseList));
+		newItem.finalize();
+		newItemTwo.finalize();
+		newItemThree.finalize();
 
 	}
 	
 	@Test
 	public void testRebateDoesNotApplyThreeItems()
 	{
-		BigDecimal setRebate=new BigDecimal(20.99);
-		setRebate.setScale(2, RoundingMode.CEILING);
-		RebateOne newRebate= new RebateOne(setRebate);
+		RebateOne newRebate= new RebateOne();
 		String storeItemDescription="MSI Prestige 15";
 		BigDecimal itemPrice=new BigDecimal(1799.00);
 		String storeItemDescriptionTwo="Dell XPS 15";
@@ -146,9 +117,9 @@ BigDecimal setRebate=new BigDecimal(20.99);
 		itemPrice=itemPrice.setScale(2, RoundingMode.CEILING);
 		itemPriceTwo=itemPriceTwo.setScale(2, RoundingMode.CEILING);
 		itemPriceThree=itemPriceThree.setScale(2, RoundingMode.CEILING);
-		StoreItem newItem=new StoreItem(storeItemDescription, itemPrice, -1);
-		StoreItem newItemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo, -1);
-		StoreItem newItemThree=new StoreItem(storeItemDescriptionThree, itemPriceThree, -1);
+		StoreItem newItem=new StoreItem(storeItemDescription, itemPrice);
+		StoreItem newItemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo);
+		StoreItem newItemThree=new StoreItem(storeItemDescriptionThree, itemPriceThree);
 		PurchasedItems newPurchaseList=new PurchasedItems();
 		newPurchaseList.addItem(newItem);
 		newPurchaseList.addItem(newItemTwo);
@@ -159,13 +130,79 @@ BigDecimal setRebate=new BigDecimal(20.99);
 	@Test
 	public void testRebateGetLines()
 	{
-		BigDecimal setRebate=new BigDecimal(20.99);
-		setRebate.setScale(2, RoundingMode.CEILING);
-		RebateOne newRebate= new RebateOne(setRebate);
+		RebateOne newRebate=new RebateOne();
 		BigDecimal rebateAmountOff=newRebate.getAmountOff();
-		int amountRebateId=newRebate.getRebateId();
-		String expectedGetLines="$"+rebateAmountOff.toString()+" REBATE (#"+amountRebateId+")";
+		String expectedGetLines="$"+rebateAmountOff.toString()+" REBATE (#1)";
 		String actualGetLines=newRebate.getLines();
 		Assertions.assertEquals(expectedGetLines, actualGetLines);
+	}
+	
+	//Subsumes getQualifyingItems test
+	@Test
+	public void addQualifyingItem()
+	{
+		String storeItemDescription="MSI Prestige 15";
+		BigDecimal itemPrice=new BigDecimal(1799.00);
+		String storeItemDescriptionTwo="Dell XPS 15";
+		BigDecimal itemPriceTwo=new BigDecimal(1899.00);
+		String storeItemDescriptionThree="Apple Macbook Pro 16";
+		BigDecimal itemPriceThree=new BigDecimal(2399.00);
+		itemPrice=itemPrice.setScale(2, RoundingMode.CEILING);
+		itemPriceTwo=itemPriceTwo.setScale(2, RoundingMode.CEILING);
+		itemPriceThree=itemPriceThree.setScale(2, RoundingMode.CEILING);
+		StoreItem itemOne=new StoreItem(storeItemDescription, itemPrice);
+		StoreItem itemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo);
+		StoreItem itemThree=new StoreItem(storeItemDescriptionThree, itemPriceThree);
+		RebateOne newRebate=new RebateOne();
+		newRebate.addToQualifyingPurchases(itemOne);
+		newRebate.addToQualifyingPurchases(itemTwo);
+		newRebate.addToQualifyingPurchases(itemThree);
+		String[] qualifyingItems=newRebate.getListOfQualifyingItems();
+		for(int i=0; i< qualifyingItems.length; i++)
+		{
+			String itemString=qualifyingItems[i];
+			if(i == 0)
+			{
+				Assertions.assertEquals(storeItemDescription+" : 1", itemString);
+			}
+			else if(i == 1)
+			{
+				Assertions.assertEquals(storeItemDescriptionTwo+" : 2", itemString);
+			}
+			else
+			{
+				Assertions.assertEquals(storeItemDescriptionThree+" : 3", itemString);
+			}
+		}
+		itemOne.finalize();
+		itemTwo.finalize();
+		itemThree.finalize();
+		 
+	}
+	
+	@Test
+	public void removeQualifyingItem()
+	{
+		String storeItemDescription="MSI Prestige 15";
+		BigDecimal itemPrice=new BigDecimal(1799.00);
+		String storeItemDescriptionTwo="Dell XPS 15";
+		BigDecimal itemPriceTwo=new BigDecimal(1899.00);
+		String storeItemDescriptionThree="Apple Macbook Pro 16";
+		BigDecimal itemPriceThree=new BigDecimal(2399.00);
+		itemPrice=itemPrice.setScale(2, RoundingMode.CEILING);
+		itemPriceTwo=itemPriceTwo.setScale(2, RoundingMode.CEILING);
+		itemPriceThree=itemPriceThree.setScale(2, RoundingMode.CEILING);
+		StoreItem itemOne=new StoreItem(storeItemDescription, itemPrice);
+		StoreItem itemTwo=new StoreItem(storeItemDescriptionTwo, itemPriceTwo);
+		StoreItem itemThree=new StoreItem(storeItemDescriptionTwo, itemPriceThree);
+		RebateOne newRebate=new RebateOne();
+		newRebate.addToQualifyingPurchases(itemOne);
+		newRebate.addToQualifyingPurchases(itemTwo);
+		newRebate.addToQualifyingPurchases(itemThree);
+		String[] qualifyingItems=newRebate.getListOfQualifyingItems();
+		Assertions.assertEquals(3, qualifyingItems.length);
+		itemOne.finalize();
+		itemTwo.finalize();
+		itemThree.finalize();
 	}
 }

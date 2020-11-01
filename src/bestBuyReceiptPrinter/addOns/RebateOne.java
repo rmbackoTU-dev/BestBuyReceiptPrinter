@@ -42,19 +42,22 @@ public class RebateOne implements Rebate{
 	@Override
 	public String[]  getListOfQualifyingItems()
 	{
-		String[] qualifyingPurchasesArray=(String[]) qualifyingPurchasesNames.toArray();
+		String[] qualifyingPurchasesArray=new String[this.qualifyingPurchasesNames.size()];
+		Iterator itemsQualifyingIterator=this.qualifyingPurchasesNames.iterator();
+		int i=0;
+		while(itemsQualifyingIterator.hasNext() && i< this.qualifyingPurchasesNames.size())
+		{
+			qualifyingPurchasesArray[i]=(String) itemsQualifyingIterator.next();
+			i=i+1;
+		}
 		return qualifyingPurchasesArray;
-	}
-	
-	public void setAmountOff(BigDecimal moneyBack)
-	{
-		this.amountOff=moneyBack;
 	}
 	
 	public BigDecimal getAmountOff()
 	{
 		return this.amountOff;
 	}
+	
 	
 	/**
 	 * Check if any item applies for this rebate
