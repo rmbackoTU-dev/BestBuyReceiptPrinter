@@ -173,8 +173,8 @@ public class ReceiptFactory {
 			{
 				taxStrat=taxComputationObject[3];
 			}
-			Receipt newReceipt=new BasicReceipt(itemsBought, today);
-			
+			BasicReceipt newReceipt=new BasicReceipt(itemsBought, today);
+			newReceipt.setTaxComputationMethod(taxStrat);
 			return newReceipt;
 		}
 	
