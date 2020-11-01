@@ -1,5 +1,7 @@
 package bestBuyReceiptPrinter.generator;
+
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
+import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
 
 public class BasicReceipt implements Receipt {
@@ -33,7 +35,18 @@ public class BasicReceipt implements Receipt {
         System.out.println(store_header.toString());
         System.out.println(date.toString());
 
-
+        PurchasedItems.PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
+        StoreItem currentItem;
+        while (iterator.hasNext()) {
+            iterator.next();
+            currentItem = iterator.getCurrentItem();
+            System.out.println(String.format("%9s %16s %n", currentItem.getDescription(), currentItem.getPrice()));
+        }
+        System.out.println(items.getTotalPrice().toString());
+        System.out.println(tc.computeTax(items, date));
+        double totalDouble = items.getTotalPrice().doubleValue();
+        double receiptTotal = totalDouble + tc.computeTax(items,date);
+        System.out.println(receiptTotal);
     }
 }
 
