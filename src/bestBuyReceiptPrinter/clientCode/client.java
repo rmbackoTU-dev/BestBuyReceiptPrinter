@@ -1,5 +1,12 @@
 package bestBuyReceiptPrinter.clientCode;
 
+import bestBuyReceiptPrinter.addOns.Addon;
+import bestBuyReceiptPrinter.addOns.AddonList;
+import bestBuyReceiptPrinter.addOns.RebateOne;
+import bestBuyReceiptPrinter.addOns.RebateTwentyFive;
+import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
+import bestBuyReceiptPrinter.addOns.TwentyFivePercentCoupon;
+import bestBuyReceiptPrinter.addOns.WinterHolidayHeader;
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
 import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
@@ -95,11 +102,34 @@ public class client {
             }
         }
     }
+    
+    // 3. Constructs a ReceiptFactory object.
+    //3.a construct addons
+    //3.b pass Addons to ReceiptFactory
+    Addon winterHeader=new WinterHolidayHeader();
+    Addon firstRebate=new RebateOne();
+    Addon secondRebate=new RebateTwentyFive();
+    Addon firstCoupon=new TenPercentCoupon();
+    Addon secondCoupon=new TwentyFivePercentCoupon();
+    
+    //Above needs correct parameters passed to them to work.
+    //for example a list of all the items which a coupon is given needs to be added to each coupon
+    
+    AddonList listOfAddons=new AddonList();
+    
+    //Then use addAddon to add the addon to the list of addons once they are done
+    
+    //finally call the factory with the list of Addons and use getReceipt to get a basic receipt
+    //pass the receipt to getReceiptAddonIfApplies to get a Receipt with all of the necessary addons.
+    
+    
 }
 
 
 
 // 3. Constructs a ReceiptFactory object.
+
+
 // 3. Prompts user for items to purchase, storing each in PurchasedItems.
 // 4. Calls the getReceipt method of the factory to obtain constructed receipt.
 // 5. Prints receipt by call to method prtReceipt.
