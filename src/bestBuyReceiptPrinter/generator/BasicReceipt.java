@@ -1,4 +1,6 @@
 package bestBuyReceiptPrinter.generator;
+import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
+import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
 
 public class BasicReceipt implements Receipt {
 

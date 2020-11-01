@@ -14,6 +14,10 @@ public class MDTaxComputation extends TaxComputationMethod {
 
     double taxPercent = 0.06;
 
+    public MDTaxComputation(ReceiptDate date){
+        super(date);
+    }
+
 
     public double computeTax(PurchasedItems items, ReceiptDate date) {
 // calls private method taxHoliday as part of this computation
@@ -21,7 +25,7 @@ public class MDTaxComputation extends TaxComputationMethod {
         BigDecimal taxSum = new BigDecimal(0);
         taxSum = taxSum.setScale(0, RoundingMode.CEILING);
         StoreItem currentItem;
-        if (taxHoliday(date)) {
+        if (taxHoliday()) {
             return 0;
         } else {
             PurchasedItemsIterator iterator = items.getPurchasedItemsIter();
@@ -42,9 +46,8 @@ public class MDTaxComputation extends TaxComputationMethod {
      * Returns true if date is between
      * August 9 and August 15
      */
-    public boolean taxHoliday(ReceiptDate date) {
+    public boolean taxHoliday() {
 
-        boolean isHoliday = false;
-        return isHoliday;
+        return false;
     }
 }
