@@ -1,9 +1,13 @@
 package bestBuyReceiptPrinter.clientCode;
 
 import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
+import bestBuyReceiptPrinter.addOns.AddonList;
+import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
+import bestBuyReceiptPrinter.generator.StoreHeader;
 import bestBuyReceiptPrinter.generator.Receipt;
 import bestBuyReceiptPrinter.addOns.TenPercentCoupon;
 import java.util.Date;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 /**
  * A factory Method that creates a Receipt 
@@ -14,8 +18,15 @@ import java.math.BigDecimal;
 
 public class ReceiptFactory {
 	
+		private AddonList addons;
+		private TaxComputationMethod[] taxComputationObject;
+		private StoreHeader header;
+		private static InputStreamReader inputReader;
+		
 		public ReceiptFactory()
 		{
+			this.taxComputationObject=new TaxComputationMethod[4];
+			this.addons=new AddonList();
 			
 		}
 
