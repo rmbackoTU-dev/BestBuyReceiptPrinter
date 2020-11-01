@@ -5,6 +5,7 @@ import bestBuyReceiptPrinter.clientCode.data.StoreItem;
 import bestBuyReceiptPrinter.generator.ReceiptDate;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Scanner;
 
 public class client {
@@ -42,35 +43,49 @@ public class client {
         System.out.println("3. Sashendo Stitch, $299.99");
         System.out.println("4. Sashendo GamePro Mastered, $59.99");
         System.out.println("5. RyanCo. All purpose charger, $19.99");
-        System.out.println("5. Sashendo Legend of Java, $59.99");
-        System.out.println("6. Sashendo The Nums, $59.99");
+        System.out.println("6. Sashendo Legend of Java, $59.99");
+        System.out.println("7. Sashendo The Nums, $59.99");
 
         String finished = "n";
         String itemNumber = "0";
         PurchasedItems items = new PurchasedItems();
 
+        BigDecimal itemOnePrice=new BigDecimal(3200.99);
+        BigDecimal itemTwoPrice=new BigDecimal(750.99);
+        BigDecimal itemThreePrice=new BigDecimal(59.99);
+        BigDecimal itemFourPrice=new BigDecimal(299.99);
+        BigDecimal itemFivePrice=new BigDecimal(19.99);
+        BigDecimal itemSixPrice=new BigDecimal(59.99);
+        itemOnePrice=itemOnePrice.setScale(2, RoundingMode.CEILING);
+        itemTwoPrice=itemTwoPrice.setScale(2, RoundingMode.CEILING);
+        itemThreePrice=itemThreePrice.setScale(2, RoundingMode.CEILING);
+        itemFourPrice=itemFourPrice.setScale(2, RoundingMode.CEILING);
+        itemFivePrice=itemFivePrice.setScale(2, RoundingMode.CEILING);
+        itemSixPrice=itemSixPrice.setScale(2, RoundingMode.CEILING);
+
         while (finished.equals("n")) {
             System.out.println("Please enter your order by indicating the item number");
             itemNumber = scanner.nextLine();
             if (itemNumber.equals("1")) {
-                StoreItem item = new StoreItem("RyanCo. Gaming Laptop", 3200.99);
+                StoreItem item = new StoreItem("RyanCo. Gaming Laptop", itemOnePrice);
                 items.addItem(item);
             } else if (itemNumber.equals("2")) {
-                StoreItem item = new StoreItem("RyanCo. Everyday Use Laptop", 750.99);
+                StoreItem item = new StoreItem("RyanCo. Everyday Use Laptop", itemTwoPrice);
                 items.addItem(item);
             } else if (itemNumber.equals("3")) {
-                StoreItem item = new StoreItem("Sashendo Stitch", 59.99);
+                StoreItem item = new StoreItem("Sashendo Stitch", itemThreePrice);
                 items.addItem(item);
             } else if (itemNumber.equals("4")) {
-                StoreItem item = new StoreItem("Sashendo GamePro Mastered", 299.99);
+                StoreItem item = new StoreItem("Sashendo GamePro Mastered", itemFourPrice);
                 items.addItem(item);
-
             } else if (itemNumber.equals("5")) {
-                StoreItem item = new StoreItem("RyanCo. All purpose charger", 19.99);
+                StoreItem item = new StoreItem("RyanCo. All purpose charger", itemFivePrice);
                 items.addItem(item);
             } else if (itemNumber.equals("6")) {
-                StoreItem item = new StoreItem("Sashendo Legend of Java", 59.99);
+                StoreItem item = new StoreItem("Sashendo Legend of Java", itemSixPrice);
                 items.addItem(item);
+            } else if (itemNumber.equals("7")) {
+            	StoreItem item= new StoreItem("Sashendo The Nums", itemSixPrice);
             }
             System.out.println("Do you want to purchase something else? y/n");
             String purchaseAgain = "n";
