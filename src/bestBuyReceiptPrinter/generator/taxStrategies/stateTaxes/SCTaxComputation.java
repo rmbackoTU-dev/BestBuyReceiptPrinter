@@ -43,7 +43,7 @@ public class SCTaxComputation extends TaxComputationMethod {
         {
             return false;
         }
-        else if(date.getDate()<9 && (date.getDayOfWeek().equals("Friday") || date.getDayOfWeek().equals("Saturday") || date.getDayOfWeek().equals("Sunday"))){
+        else if(date.getDate()<10 && (date.getDayOfWeek().equals("Friday") || date.getDayOfWeek().equals("Saturday") || date.getDayOfWeek().equals("Sunday"))){
             return true;
         }
         return false;
