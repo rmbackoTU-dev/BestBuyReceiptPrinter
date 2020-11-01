@@ -1,5 +1,8 @@
 package bestBuyReceiptPrinter.generator;
 
+import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
+import bestBuyReceiptPrinter.generator.taxStrategies.TaxComputationMethod;
+
 public class BasicReceipt implements Receipt {
 
 		private StoreHeader store_header; // street address, state code, phone number, store number
@@ -28,7 +31,7 @@ public class BasicReceipt implements Receipt {
 //and the amount due (with added tax). In addition, following the Strategy design pattern, there should be
 //an instance variable of (interface) type TaxComputationMethod that can be assigned the appropriate t
 //ax computation object for the state that the store resides in. (For tax purposes, everything purchased
-//from Best Buy is in the category “computer or computer accessory.”)
+//from Best Buy is in the category â€œcomputer or computer accessory.â€�)
 
 //			// TODO Auto-generated method stub
 //			String bestBuy = "BEST BUY";

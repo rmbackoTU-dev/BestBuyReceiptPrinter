@@ -1,9 +1,12 @@
 package bestBuyReceiptPrinter.generator.taxStrategies.stateTaxes;
 
+import bestBuyReceiptPrinter.clientCode.data.PurchasedItems;
+import bestBuyReceiptPrinter.generator.Date;
+
 public class SCTaxComputation {
     //South Carolina
 
-    public double computeTax(PurchasedItems items, ReceiptDate date) {
+    public double computeTax(PurchasedItems items, Date date) {
 // calls private method taxHoliday as part of this computation
 
         if (taxHoliday(date)) {
@@ -15,12 +18,15 @@ public class SCTaxComputation {
         }
     }
 
-    public boolean taxHoliday(ReceiptDate date) {
-    if(date.month==8){
-        if(date.date<)
-        return false;
+    public boolean taxHoliday(Date date) 
+    {
+    	boolean isHoliday=false;
+    	if((date.getMonth() == 8 ) && ((date.getDate() >= 7) && date.getDate() <= 9))
+    	{
+    		isHoliday=true;
+    	}
+        return isHoliday;
     }
-}
 
 // returns true if date of receipt within the state’s tax free holiday,
 // else returns false. Supporting method of method computeTax.
