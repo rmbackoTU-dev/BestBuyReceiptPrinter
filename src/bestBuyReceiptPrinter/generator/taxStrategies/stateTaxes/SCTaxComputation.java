@@ -32,10 +32,10 @@ public class SCTaxComputation extends TaxComputationMethod {
         //Going to be iterating through purchaseItems
     }
 
-    public boolean taxHoliday(ReceiptDate date) {
+    public boolean taxHoliday(ReceiptDate rdate) {
     if(date.month==8){
-        if(day=="Friday"|| day=="Saturday"||day=="Sunday"){
-            if(date.date<9){
+        if(date.day=="Friday"|| date.day=="Saturday"||date.day=="Sunday"){
+            if(date.date<9 && date.date!=1){
                 return true;
             }
         }
